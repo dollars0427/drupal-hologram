@@ -2,7 +2,7 @@ import React from 'react';
 import {Panel} from 'react-bootstrap';
 import DropzoneCom from './Dropzone';
 
-class GalleryCom extends React.Component {
+class PreviewCom extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -26,10 +26,10 @@ class GalleryCom extends React.Component {
                     onUploaded={this.onUploaded.bind(this)}
                     config={this.props.dropzoneConfig}/>
                 {this.state.display ? <div>
-                    <Panel className="gallery">
+                    <h2>Uploaded Image:</h2>
+                    <Panel className="preview">
                         {this.state.files.map((file) =>
-                            <h2>Uploaded Image:</h2>
-                            <div key={file.key} className="gallery-image">
+                            <div key={file.key} className="preview-image">
                                 <img src={file['preview']} className="img-responsive img-thumbnail"></img>
                             </div>
                         )}
@@ -49,4 +49,4 @@ class GalleryCom extends React.Component {
     }
 }
 
-export default GalleryCom
+export default PreviewCom

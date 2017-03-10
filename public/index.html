@@ -7,19 +7,19 @@
     <link rel=stylesheet type="text/css" href="css/style.css">
 </head>
 
-<div id="hologram-gallery"></div>
+<div id="hologram-preview"></div>
 <body>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
     <script src="assets/bundle.js"></script>
     <script>
-    window.hologram(document.getElementById('hologram-gallery'), {
+    window.hologram(document.getElementById('hologram-preview'), {
         dropzoneConfig: {
             uploader: '/hologram/hologram-server/upload.php',
-        }
+        },
         onComplete: function(files){
-            
-        });
+
+        }
     });
-    </script>
+</script>
 </body>
 </html>
