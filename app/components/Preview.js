@@ -6,17 +6,15 @@ class PreviewCom extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            display: false,
-            files: []
+            display: false
         };
     }
 
     onUploaded(result){
         this.setState({
-            display: true,
-            files: result['files']
+            display: true
         });
-        this.props.onComplete(result);
+        //this.props.onComplete(result);
     }
 
     render() {
