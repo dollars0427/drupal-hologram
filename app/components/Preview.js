@@ -1,19 +1,12 @@
 import React from 'react';
 import {Panel} from 'react-bootstrap';
+import {connect} from 'react-redux';
+import {addFiles} from '../actions';
 import DropzoneCom from './Dropzone';
 
 class PreviewCom extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            display: false
-        };
-    }
-
     onUploaded(result){
-        this.setState({
-            display: true
-        });
+        this.props.dispatch(addFiles(result['files']));
         //this.props.onComplete(result);
     }
 
@@ -23,10 +16,10 @@ class PreviewCom extends React.Component {
                 <DropzoneCom
                     onUploaded={this.onUploaded.bind(this)}
                     config={this.props.dropzoneConfig}/>
-                {this.state.display ? <div>
+                {this.props.files.length > 0 ? <div>
                     <h2>Uploaded Image:</h2>
                     <Panel className="preview">
-                        {this.state.files.map((file) =>
+                        {this.props.files.map((file) =>
                             <div key={file.key} className="preview-image">
                                 <img src={file['preview']} className="img-responsive img-thumbnail"></img>
                             </div>
@@ -38,13 +31,18 @@ class PreviewCom extends React.Component {
     );}
 
     static propTypes = {
+        files: React.PropTypes.array,
         dropzoneConfig: React.PropTypes.object,
         onComplete: React.PropTypes.func
     };
 
     static defaultProps = {
         onComplete: () => {}
-    }
+    };
 }
 
-export default PreviewCom
+const mapStateToProps = (state) => {
+  return {files: state.files};
+}
+
+export default connect(mapStateToProps)(PreviewCom)

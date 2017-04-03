@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import previews from './previews';
+import files from './previews';
 
-const PreviewsReducers = combineReducers({previews})
-export default PreviewsReducers;
+const previewsReducers = combineReducers({files});
+export default previewsReducers;

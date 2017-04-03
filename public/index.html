@@ -7,13 +7,6 @@
     <link rel=stylesheet type="text/css" href="css/style.css">
 </head>
 
-<form>
- <div class="form-group">
-   <label for="files">Files:</label>
-   <input type="files" class="form-control" id="files">
-</form>
-
-
 <div id="hologram-preview"></div>
 <body>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
@@ -24,20 +17,6 @@
             uploader: '/hologram/hologram-server/upload.php',
         },
         onComplete: function(result){
-            var files = result['files'];
-            var fileObjs = [];
-
-            for (file of files){
-                var fileObj = {
-                    'name': file['name'],
-                    'key': file['key'],
-                    'size': file['size'],
-                    'type': file['type']
-                };
-                fileObjs.push(fileObj);
-            }
-
-            $('#files').val(JSON.stringify(fileObjs));
         }
     });
 </script>
