@@ -23,6 +23,10 @@
         overflow: hidden;
         float: left;
 
+        &:hover img{
+            opacity: 0.3;
+        }
+
         img{
             overflow: hidden;
         }

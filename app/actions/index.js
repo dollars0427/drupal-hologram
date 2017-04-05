@@ -4,3 +4,10 @@ export const addFiles = (files) => {
     files: files
   }
 }
+
+export const removeFile = (fileId) => {
+  return {
+    type: 'REMOVE_FILE',
+    id: fileId
+  }
+}
