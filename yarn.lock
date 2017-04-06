@@ -1641,9 +1641,9 @@ hoist-non-react-statics@^1.0.3:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz#aa448cf0986d55cc40773b17174b7dd066cb7cfb"
 
-hologram-image-upload@1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/hologram-image-upload/-/hologram-image-upload-1.0.7.tgz#6202dfc089b2a9ed02e7a0f2a9d4c10ba43334b0"
+hologram-image-upload@1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/hologram-image-upload/-/hologram-image-upload-1.0.9.tgz#4a2b383bfa5a3fe5a381e7cb87d53fbe54ae116a"
   dependencies:
     react-bootstrap "0.30.7"
     react-dropzone "3.7.3"
