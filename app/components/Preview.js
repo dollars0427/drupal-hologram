@@ -3,6 +3,7 @@ import {Panel} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {addFiles, removeFile} from '../actions';
 import DropzoneCom from './Dropzone';
+import FileFormCom from './FileForm';
 
 class PreviewCom extends React.Component {
 
@@ -14,6 +15,7 @@ class PreviewCom extends React.Component {
     render() {
         return (
             <div>
+                <FileFormCom />
                 {this.props.files.length > 0 ? <div>
                     <h2>Uploaded Image:</h2>
                     <Panel className="preview">
