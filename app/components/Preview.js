@@ -3,10 +3,8 @@ import {Panel} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {addFiles, removeFile} from '../actions';
 import DropzoneCom from './Dropzone';
-import FileFormCom from './FileForm';
 
 class PreviewCom extends React.Component {
-
     onUploaded(result){
         this.props.dispatch(addFiles(result['files']));
         this.props.onComplete(result);
