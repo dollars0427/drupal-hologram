@@ -13,7 +13,6 @@ class PreviewCom extends React.Component {
     render() {
         return (
             <div>
-                <FileFormCom />
                 {this.props.files.length > 0 ? <div>
                     <h2>Uploaded Image:</h2>
                     <Panel className="preview">
@@ -36,6 +35,7 @@ class PreviewCom extends React.Component {
 
     static propTypes = {
         files: React.PropTypes.array,
+        uploadUrl: React.PropTypes.string.required,
         dropzoneConfig: React.PropTypes.object,
         onComplete: React.PropTypes.func
     };

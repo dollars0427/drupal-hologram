@@ -6,17 +6,36 @@
     <link rel=stylesheet type="text/css" href="css/ReactCrop.css">
     <link rel=stylesheet type="text/css" href="css/style.css">
 </head>
+
+<form>
+    <div class="form-group">
+        <label for="files">File:</label><input type="text" class="form-control" id="files">
+      </div>
+</form>
+
+<br />
 <div id="hologram-preview"></div>
+
 <body>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="assets/bundle.js"></script>
     <script>
+    var store = window.hologram.store;
+
     window.hologram(document.getElementById('hologram-preview'), {
         dropzoneConfig: {
             uploader: '/hologram/hologram-server/upload.php',
         },
     });
+
+    store.subscribe(function(){
+        var files = store.getState().files;
+        var val = JSON.stringify(files);
+        console.log(val);
+        $('#files').val(val);
+    });
+
 </script>
 </body>
 </html>

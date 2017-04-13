@@ -20,3 +20,5 @@ window.hologram = function (element, option) {
     element
   );
 }
+
+window.hologram.store = store;
