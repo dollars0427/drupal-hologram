@@ -20,7 +20,7 @@ class PreviewCom extends React.Component {
                             <div key={file.key} className="preview-image">
                                 <img onClick={()=> {
                                         this.props.dispatch(removeFile(file.key))}}
-                                        src={file['preview']}
+                                        src={this.props.uploadUrl + file['name']}
                                         className="img-responsive img-thumbnail">
                                 </img>
                             </div>
@@ -35,7 +35,7 @@ class PreviewCom extends React.Component {
 
     static propTypes = {
         files: React.PropTypes.array,
-        uploadUrl: React.PropTypes.string.required,
+        uploadUrl: React.PropTypes.string,
         dropzoneConfig: React.PropTypes.object,
         onComplete: React.PropTypes.func
     };
