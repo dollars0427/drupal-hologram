@@ -5,6 +5,7 @@ import {applyMiddleware, createStore} from 'redux';
 import logger from 'redux-logger';
 import previewsReducers from './reducers/';
 import PreviewCom from './components/Preview';
+import {addFiles} from './actions';
 
 let store = createStore(previewsReducers, {}, applyMiddleware(
     logger
@@ -22,3 +23,4 @@ window.hologram = function (element, option) {
 }
 
 window.hologram.store = store;
+window.hologram.addFiles = addFiles;
