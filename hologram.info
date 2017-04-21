@@ -1,0 +1,4 @@
+name = Hologram
+description = picture field widget which include image cropper function.
+core = 7.x
+package = Fields

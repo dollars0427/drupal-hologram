@@ -1,0 +1,34 @@
+.dropzone{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+
+    .dropzone-image{
+        width: 400px;
+        height: 400px;
+        overflow: hidden;
+        float: left;
+
+        img{
+            overflow: hidden;
+        }
+    }
+}
+
+.preview{
+    width: 50%;
+    .preview-image{
+        width: 150px;
+        height: 150px;
+        overflow: hidden;
+        float: left;
+
+        &:hover img{
+            opacity: 0.3;
+        }
+
+        img{
+            overflow: hidden;
+        }
+    }
+}

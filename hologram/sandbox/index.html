@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel=stylesheet type="text/css" href="css/ReactCrop.css">
+    <link rel=stylesheet type="text/css" href="css/style.css">
+    <title>Widget Sandbox</title>
+</head>
+
+<form>
+    <div class="form-group">
+        <label for="files">File:</label><input type="text" class="form-control" id="files">
+      </div>
+</form>
+
+<br />
+<div id="hologram-preview"></div>
+
+<body>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="../dist/bundle.js"></script>
+    <script>
+    var store = window.hologram.store;
+
+    window.hologram(document.getElementById('hologram-preview'), {
+        uploadUrl: '/hologram/hologram-server/',
+        dropzoneConfig: {
+            uploader: '/hologram/hologram-server/upload.php',
+        },
+    });
+
+    store.subscribe(function(){
+        var files = store.getState().files;
+        var val = JSON.stringify(files);
+        $('#files').val(val);
+    });
+
+    $('#files').change(function(){
+        try{
+            var files = JSON.parse($('#files').val());
+            store.dispatch(window.hologram.addFiles(files));
+        }catch(ex){
+
+        }
+    });
+
+</script>
+</body>
+</html>
