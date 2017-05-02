@@ -28,7 +28,7 @@ class PreviewCom extends React.Component {
                     </Panel>
                 </div> :  <DropzoneCom
                 onUploaded={this.onUploaded.bind(this)}
-                config={this.props.dropzoneConfig}/>
+                config={this.props.config}/>
             }
         </div>
     );}
@@ -36,7 +36,7 @@ class PreviewCom extends React.Component {
     static propTypes = {
         files: React.PropTypes.array,
         uploadUrl: React.PropTypes.string,
-        dropzoneConfig: React.PropTypes.object,
+        config: React.PropTypes.object,
         onComplete: React.PropTypes.func
     };
 

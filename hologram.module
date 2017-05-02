@@ -1,0 +1,38 @@
+<?php
+
+/**
+* Implements hook_field_widget_info().
+*/
+function hologram_field_widget_info(){
+    return array(
+        'hologram_image' => array(
+            'label' => t('Hologram'),
+            'field types' => array('image'),
+        )
+    );
+}
+
+/**
+* Implements hook_field_widget_form().
+*
+*/
+function hologram_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+    drupal_add_js(drupal_get_path('module', 'hologram') . '/hologram/dist/bundle.js');
+    drupal_add_js(drupal_get_path('module', 'hologram') . '/js/widget.js');
+
+    $element['value'] = array(
+        'field' => array(
+            '#type' => 'hidden',
+            '#default_value' => isset($items[$delta]) ? $items[$delta] : '',
+        ),
+        'hologram' => array(
+            '#title' => t('Images'),
+            '#type' => 'markup',
+            '#markup' => '<div class="hologram-wrapper"><label>Images</label><div class="hologram-area"></div></div>',
+        ),
+    );
+
+    return $element;
+}
+
+?>
