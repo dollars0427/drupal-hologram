@@ -1,5 +1,4 @@
 import React from 'react';
-import {Panel} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {addFiles, removeFile} from '../actions';
 import DropzoneCom from './Dropzone';
@@ -15,7 +14,6 @@ class PreviewCom extends React.Component {
             <div>
                 {this.props.files.length > 0 ? <div>
                     <h2>Uploaded Image:</h2>
-                    <Panel className="preview">
                         {this.props.files.map((file) =>
                             <div key={file.key} className="preview-image">
                                 <img onClick={()=> {
@@ -25,7 +23,6 @@ class PreviewCom extends React.Component {
                                 </img>
                             </div>
                         )}
-                    </Panel>
                 </div> :  <DropzoneCom
                 onUploaded={this.onUploaded.bind(this)}
                 config={this.props.config}/>
