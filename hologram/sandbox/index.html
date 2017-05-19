@@ -2,28 +2,30 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <link rel=stylesheet type="text/css" href="../dist/css/style.css">
+    <link rel=stylesheet type="text/css" href="../dist/css/hologram.css">
     <title>Widget Sandbox</title>
 </head>
 
-<form>
-    <div class="form-group">
-        <label for="files">File:</label><input type="text" class="form-control" id="files">
-      </div>
-</form>
-
-<br />
-<div id="hologram-preview"></div>
-
 <body>
+
+    <form>
+        <div class="form-group">
+            <label for="files">File:</label><input type="text" class="form-control" id="files">
+          </div>
+    </form>
+
+    <br />
+    <div id="hologram-preview"></div>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
     <script src="../dist/bundle.js"></script>
     <script>
     var store = window.hologram.store;
 
     window.hologram(document.getElementById('hologram-preview'), {
         uploadUrl: '/hologram/hologram-server/',
-        dropzoneConfig: {
-            uploader: '/hologram/hologram-server/upload.php',
+        config: {
+            uploader: '/hologram/hologram-server/upload.php'
         },
     });
 
