@@ -14,16 +14,16 @@
     "babel-preset-stage-0": "6.16.0",
     "gulp": "3.9.1",
     "gulp-util": "3.0.7",
-    "webpack": "1.13.3",
-    "redux-logger": "3.0.1"
+    "redux-logger": "3.0.1",
+    "webpack": "1.13.3"
   },
   "dependencies": {
-    "hologram-image-upload": "1.1.4",
-    "immutability-helper":"2.1.2",
+    "hologram-image-upload": "2.0.0",
+    "immutability-helper": "2.1.2",
     "react": "15.3.2",
+    "react-bootstrap": "0.30.7",
     "react-dom": "15.3.2",
     "react-redux": "5.0.3",
-    "redux": "3.6.0",
-    "react-bootstrap": "0.30.7"
+    "redux": "3.6.0"
   }
 }
