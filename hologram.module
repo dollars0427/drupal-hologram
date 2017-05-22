@@ -1,6 +1,26 @@
 <?php
 
 /**
+ * Implements hook_menu().
+ */
+
+function hologram_menu(){
+    $items['hologram/upload'] = array(
+        'page callback' => 'hologram_upload',
+        'access arguments' => array('administer media'),
+    );
+
+    return $items;
+}
+
+function hologram_upload(){
+    header('Content-type:application/json;charset=utf-8');
+    $request = file_get_contents('php://input');
+    echo json_encode($request, JSON_UNESCAPED_UNICODE);
+    exit();
+}
+
+/**
 * Implements hook_field_widget_info().
 */
 function hologram_field_widget_info(){
@@ -35,5 +55,7 @@ function hologram_field_widget_form(&$form, &$form_state, $field, $instance, $la
 
     return $element;
 }
+
+
 
 ?>
