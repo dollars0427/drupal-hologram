@@ -16,11 +16,12 @@ function hologram_menu(){
 function hologram_upload(){
     header('Content-type:application/json;charset=utf-8');
     $request = file_get_contents('php://input');
+    $upload_path = variable_get('file_public_path', conf_path() . '/files');
     $file = json_decode($request);
     if($file){
         $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $file->preview));
         try{
-            file_put_contents('sites/default/files/' . $file->name, $data);
+            file_put_contents($upload_path . '/' . $file->name, $data);
             $uploaded_file = array('name' => $file->name, 'size' => $file->size, 'uploaded_date'=> (new DateTime())->getTimestamp());
             echo json_encode($uploaded_file, JSON_UNESCAPED_UNICODE);
         }catch(Exception $e){
@@ -48,9 +49,11 @@ function hologram_field_widget_info(){
 *
 */
 function hologram_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+    $upload_path = '/' . variable_get('file_public_path', conf_path() . '/files/');
     drupal_add_css(drupal_get_path('module', 'hologram') . '/hologram/dist/css/hologram.css');
     drupal_add_js(drupal_get_path('module', 'hologram') . '/hologram/dist/bundle.js');
     drupal_add_js(drupal_get_path('module', 'hologram') . '/js/widget.js');
+    drupal_add_js(array('Hologram' => array('uploadUrl' => $upload_path)), array('type' => 'setting'));
 
     $element['value'] = array(
         'field' => array(
