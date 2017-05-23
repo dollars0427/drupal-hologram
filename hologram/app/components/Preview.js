@@ -5,16 +5,9 @@ import DropzoneCom from './Dropzone';
 
 class PreviewCom extends React.Component {
     onUploaded(result){
-        var files = [];
-        var responses = result['response'];
-        for(var i = 0; i < responses.length; i++){
-            if(responses[i].status === 200){
-                var file = JSON.parse(responses[i].text);
-                files.push(file);
-            }
-        }
-        this.props.dispatch(addFiles(files));
-        this.props.onComplete(files);
+        console.log(result['response']);
+        this.props.dispatch(addFiles(result['files']));
+        this.props.onComplete(result);
     }
 
     render() {
@@ -25,9 +18,9 @@ class PreviewCom extends React.Component {
                         {this.props.files.map((file) =>
                             <div key={file.key} className="preview-image">
                                 <img onClick={()=> {
-                                        this.props.dispatch(removeFile(file.key))}}
-                                        src={file.preview}
-                                        className="img-responsive img-thumbnail">
+                                    this.props.dispatch(removeFile(file.key))}}
+                                    src={this.props.uploadUrl + file['name']}
+                                    className="img-responsive img-thumbnail">
                                 </img>
                             </div>
                         )}
