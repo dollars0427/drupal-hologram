@@ -1,16 +1,11 @@
 (function ($) {
   $(window).load(function(){
       window.hologram(document.getElementsByClassName('hologram-area')[0], {
-          uploadUrl: '/hologram/hologram-server/',
+          onComplete: function(result){
+             //console.log(result);
+         },
           config: {
-              uploader: '/hologram/upload',
-              onComplete: function(result){
-                  try{
-                      
-                  }catch(ex){
-
-                  }
-              }
+              uploader: '/hologram/upload'
           },
       });
   });

@@ -16,7 +16,7 @@ function hologram_menu(){
 function hologram_upload(){
     header('Content-type:application/json;charset=utf-8');
     $request = file_get_contents('php://input');
-    echo json_encode($request, JSON_UNESCAPED_UNICODE);
+    echo $request;
     exit();
 }
 
