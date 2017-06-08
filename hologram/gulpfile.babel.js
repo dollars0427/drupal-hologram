@@ -25,7 +25,7 @@ gulp.task('build:js', function () {
 
 gulp.task('build:css', function(){
     return gulp.src('./css/*.css')
-    .pipe(concatCss('Hologram.css'))
+    .pipe(concatCss('hologram.css'))
     .pipe(gulp.dest('./dist/css'))
 });
 
