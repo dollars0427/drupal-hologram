@@ -23,6 +23,7 @@ function hologram_upload(){
         try{
             $file_data = file_save_data($data, 'public://' . $file->name, FILE_EXISTS_REPLACE);
             $uploaded_file = array('id'=> $file_data->fid, 'name' => $file->name, 'size' => $file->size, 'uploaded_date'=> (new DateTime())->getTimestamp());
+            $_SESSION['uploaded_file'] = $uploaded_file;
             echo json_encode($uploaded_file, JSON_UNESCAPED_UNICODE);
         }catch(Exception $e){
             $result = array('message'=>'Upload Failed!', 'error' => $e);
@@ -56,13 +57,9 @@ function hologram_field_widget_form(&$form, &$form_state, $field, $instance, $la
     drupal_add_js(array('Hologram' => array('uploadUrl' => $upload_path)), array('type' => 'setting'));
 
     $element['value'] = array(
-      'image'=> array(
-        '#type' => 'managed_file',
-      ),
-
       'image_json' => array(
         '#type' => 'hidden',
-        '#default_value' => isset($items['image_json']) ? $items['image_json'] : ''
+        '#default_value' => isset($items[$delta]['image_json']) ? $items[$delta]['image_json'] : ''
       ),
       'hologram' => array(
         '#title' => t('Images'),
@@ -71,15 +68,46 @@ function hologram_field_widget_form(&$form, &$form_state, $field, $instance, $la
       ),
     );
 
-    //$element['#process'][] = 'hologram_field_widget_process';
-
     return $element;
 }
 
-function hologram_field_widget_process($element, &$form_state, $form){
-  $item = $element['value'];
+function hologram_entity_presave($entity, $type) {
+  // HACK - until http://drupal.org/node/1448124 is addressed, the iamgesize
+  // is stored in the field instance and we have no way of cleanly altering
+  // it correctly, so do it here.
+  //
+  $fields = field_info_instances($type, isset($entity->type) ? $entity->type : NULL);
+  if (isset($entity->type)) {
+    _hologram_entity_presave($entity, $fields);
+  }
+  else {
+    foreach ($fields as $bundle) {
+      _hologram_entity_presave($entity, $bundle);
+    }
+  }
 }
 
+function _hologram_entity_presave($entity, $fields) {
+  foreach ($fields as $field_name => $field) {
+    if ($field['widget']['type'] != 'hologram_image') {
+      continue;
+    }
+    if (!isset($entity->{$field_name})) {
+      continue;
+    }
+
+    // Get the language key for the field, if fields language key is not
+    // $entity->language set $lang to 'und'.
+
+    $lang = LANGUAGE_NONE;
+    if (isset($entity->language) && isset($entity->{$field_name}[$entity->language])) {
+      $lang = $entity->language;
+    }
+
+    $uploaded_file = $_SESSION['uploaded_file'];
+    $entity->{$field_name}[$lang][0]['fid'] = $uploaded_file['id'];
+  }
+}
 
 function hologram_field_is_empty($item, $field) {
   return empty($item['value']) && (string) $item['value'] !== '0';
