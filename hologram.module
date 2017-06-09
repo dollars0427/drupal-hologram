@@ -56,19 +56,30 @@ function hologram_field_widget_form(&$form, &$form_state, $field, $instance, $la
     drupal_add_js(array('Hologram' => array('uploadUrl' => $upload_path)), array('type' => 'setting'));
 
     $element['value'] = array(
-        'image_json' => array(
-            '#type' => 'hidden',
-            '#default_value' => isset($items['image_json']) ? $items['image_json'] : ''
-        ),
-        'hologram' => array(
-            '#title' => t('Images'),
-            '#type' => 'markup',
-            '#markup' => '<div class="hologram-wrapper"><label>Images</label><div class="hologram-area"></div></div>',
-        ),
+      'image'=> array(
+        '#type' => 'managed_file',
+      ),
+
+      'image_json' => array(
+        '#type' => 'hidden',
+        '#default_value' => isset($items['image_json']) ? $items['image_json'] : ''
+      ),
+      'hologram' => array(
+        '#title' => t('Images'),
+        '#type' => 'markup',
+        '#markup' => '<div class="hologram-wrapper"><label>Images</label><div class="hologram-area"></div></div>',
+      ),
     );
+
+    //$element['#process'][] = 'hologram_field_widget_process';
 
     return $element;
 }
+
+function hologram_field_widget_process($element, &$form_state, $form){
+  $item = $element['value'];
+}
+
 
 function hologram_field_is_empty($item, $field) {
   return empty($item['value']) && (string) $item['value'] !== '0';
