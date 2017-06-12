@@ -40,7 +40,7 @@ function hologram_field_widget_info(){
     return array(
         'hologram_image' => array(
             'label' => t('Hologram'),
-            'field types' => array('image'),
+            'field types' => array('image')
         )
     );
 }
@@ -61,9 +61,10 @@ function hologram_field_widget_form(&$form, &$form_state, $field, $instance, $la
     }
 
     $element['value'] = array(
-      'image_json' => array(
+      'image_data' => array(
         '#type' => 'hidden',
-        '#default_value' => isset($item_json) ? $item_json : ''
+        '#default_value' => isset($item_json) ? $item_json : '',
+        '#attributes' => array('id' => 'hologram-image-data'),
       ),
       'hologram' => array(
         '#title' => t('Images'),
@@ -76,10 +77,6 @@ function hologram_field_widget_form(&$form, &$form_state, $field, $instance, $la
 }
 
 function hologram_entity_presave($entity, $type) {
-  // HACK - until http://drupal.org/node/1448124 is addressed, the iamgesize
-  // is stored in the field instance and we have no way of cleanly altering
-  // it correctly, so do it here.
-  //
   $fields = field_info_instances($type, isset($entity->type) ? $entity->type : NULL);
   if (isset($entity->type)) {
     _hologram_entity_presave($entity, $fields);
