@@ -23,22 +23,17 @@ function hologram_upload(){
   $file = json_decode($request);
 
   if($file){
-    //If uploaded_files session not existed, create it
-    if(!isset($_SESSION['uploaded_files'])){
-      $_SESSION['uploaded_files'] = array();
-    }
-
     $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $file->preview));
 
     try{
       $file_data = file_save_data($data, 'public://' . $file->name, FILE_EXISTS_REPLACE);
       $uploaded_file = array(
-        'id'=> $file_data->fid,
+        'key'=> $file->key,
+        'fid'=> $file_data->fid,
         'name' => $file->name,
         'size' => $file->size,
         'uploaded_date'=> (new DateTime())->getTimestamp(),
       );
-      array_push($_SESSION['uploaded_files'], $uploaded_file);
       echo json_encode($uploaded_file, JSON_UNESCAPED_UNICODE);
     }catch(Exception $e){
       $result = array('message'=>'Upload Failed!', 'error' => $e);
@@ -97,7 +92,16 @@ function hologram_field_widget_form(&$form, &$form_state, $field, $instance, $la
     ),
   );
 
+  $element['#element_validate'][] = 'hologram_validate';
+
   return $element;
+}
+
+function hologram_validate($element, &$form_state){
+  if(!empty($element['value']['image_data']['#value'])){
+    $images = json_decode($element['value']['image_data']['#value']);
+    $_SESSION['uploaded_files'] = $images;
+  }
 }
 
 function hologram_entity_presave($entity, $type) {
@@ -131,8 +135,9 @@ function _hologram_entity_presave($entity, $fields) {
 
     if(isset($_SESSION['uploaded_files'])){
       $files = $_SESSION['uploaded_files'];
+
       foreach($files as $delta => $file){
-        $entity->{$field_name}[$lang][$delta]['fid'] = $file['id'];
+        $entity->{$field_name}[$lang][$delta]['fid'] = $file->fid;
       }
       unset($_SESSION['uploaded_files']);
     }else{

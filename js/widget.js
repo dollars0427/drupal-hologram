@@ -3,8 +3,13 @@
     window.hologram(document.getElementsByClassName('hologram-area')[0], {
       uploadUrl: Drupal.settings.Hologram.uploadUrl,
       onComplete: function(result){
-        var response = result['response'];
-        var json = JSON.stringify(result['files']);
+        var files = [];
+        result['response'].forEach(function(response){
+          var result = response['text'];
+          result = JSON.parse(result);
+          files.push(result);
+        });
+        var json = JSON.stringify(files);
         $('#hologram-image-data').val(json);
       },
       config: {
@@ -29,7 +34,7 @@
     store.subscribe(function(){
       var files = store.getState().files;
       var json = JSON.stringify(files);
-      $('#hologram-image-data"').val(json);
+      $('#hologram-image-data').val(json);
     });
   });
 })(jQuery);
