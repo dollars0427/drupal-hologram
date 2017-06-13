@@ -1,23 +1,18 @@
 (function ($) {
   $(window).load(function(){
+
+    var store = window.hologram.store;
+
     window.hologram(document.getElementsByClassName('hologram-area')[0], {
       uploadUrl: Drupal.settings.Hologram.uploadUrl,
       onComplete: function(result){
-        var files = [];
-        result['response'].forEach(function(response){
-          var result = response['text'];
-          result = JSON.parse(result);
-          files.push(result);
-        });
-        var json = JSON.stringify(files);
+        var json = JSON.stringify(result);
         $('#hologram-image-data').val(json);
       },
       config: {
         uploader: '/hologram/upload'
       },
     });
-
-    var store = window.hologram.store;
 
     //Push exist images to holgoram widget
 
