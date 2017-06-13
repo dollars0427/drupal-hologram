@@ -126,8 +126,10 @@ function _hologram_entity_presave($entity, $fields) {
     }
 
     if(isset($_SESSION['uploaded_files'])){
-      $uploaded_files = $_SESSION['uploaded_files'];
-      $entity->{$field_name}[$lang][0]['fid'] = $uploaded_files[0]['id'];
+      $files = $_SESSION['uploaded_files'];
+      foreach($files as $delta => $file){
+        $entity->{$field_name}[$lang][$delta]['fid'] = $file['id'];
+      }
       unset($_SESSION['uploaded_files']);
     }else{
       unset($entity->{$field_name}[$lang][0]['fid']);
