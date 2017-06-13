@@ -55,7 +55,11 @@ function hologram_field_widget_info(){
   return array(
     'hologram_image' => array(
       'label' => t('Hologram'),
-      'field types' => array('image')
+      'field types' => array('image'),
+      'behaviors' => array(
+        'multiple values' => FIELD_BEHAVIOR_CUSTOM,
+        'default value' => FIELD_BEHAVIOR_NONE,
+      ),
     )
   );
 }
