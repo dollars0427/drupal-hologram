@@ -86,7 +86,6 @@ function hologram_field_widget_form(&$form, &$form_state, $field, $instance, $la
       '#attributes' => array('id  ' => 'hologram-image-data'),
     ),
     'hologram' => array(
-      '#title' => t('Images'),
       '#type' => 'markup',
       '#markup' => '<div class="hologram-wrapper"><label>Images</label><div class="hologram-area"></div></div>',
     ),

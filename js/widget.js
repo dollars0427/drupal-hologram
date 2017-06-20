@@ -2,22 +2,25 @@
   $(window).load(function(){
 
     var store = window.hologram.store;
+    var areas = document.getElementsByClassName('hologram-area');
 
-    window.hologram(document.getElementsByClassName('hologram-area')[0], {
-      uploadUrl: Drupal.settings.Hologram.uploadUrl,
-      onComplete: function(result){
-        var files = [];
-        result['response'].forEach(function(response){
-          var result = response['text'];
-          result = JSON.parse(result);
-          files.push(result);
-        });
-        var json = JSON.stringify(files);
-        $('#hologram-image-data').val(json);
-      },
-      config: {
-        uploader: '/hologram/upload'
-      },
+    Array.prototype.forEach.call(areas, function(area){
+      window.hologram(area, {
+        uploadUrl: Drupal.settings.Hologram.uploadUrl,
+        onComplete: function(result){
+          var files = [];
+          result['response'].forEach(function(response){
+            var result = response['text'];
+            result = JSON.parse(result);
+            files.push(result);
+          });
+          var json = JSON.stringify(files);
+          $('#hologram-image-data').val(json);
+        },
+        config: {
+          uploader: '/hologram/upload'
+        },
+      });
     });
 
     //Push exist images to holgoram widget
