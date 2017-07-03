@@ -7,20 +7,21 @@ import previewsReducers from './reducers/';
 import PreviewCom from './components/Preview';
 import {addFiles} from './actions';
 
-let store = createStore(previewsReducers, {}, applyMiddleware(
-    logger
-));
-
 window.hologram = function (element, option) {
-  ReactDOM.render(
-    <div>
-        <Provider store={store}>
-            <PreviewCom {... option}/>
-        </Provider>
-    </div>,
-    element
-  );
-}
+   let store = createStore(previewsReducers, {}, applyMiddleware(
+      logger
+   ));
 
-window.hologram.store = store;
-window.hologram.addFiles = addFiles;
+   ReactDOM.render(
+      <div>
+         <Provider store={store}>
+            <PreviewCom {... option}/>
+         </Provider>
+      </div>,
+      element
+   );
+   return {
+      store,
+      addFiles,
+   }
+}
