@@ -24,13 +24,15 @@ function hologram_upload(){
 
    if($file){
       $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $file->preview));
+      $ext = pathinfo($file->name, PATHINFO_EXTENSION);
+      $file_name = md5($file->name) . '.' . $ext;
 
       try{
-         $file_data = file_save_data($data, 'public://' . $file->name, FILE_EXISTS_REPLACE);
+         $file_data = file_save_data($data, 'public://' . $file_name, FILE_EXISTS_REPLACE);
          $uploaded_file = array(
             'key'=> $file->key,
             'fid'=> $file_data->fid,
-            'name' => $file->name,
+            'name' => $file_name,
             'size' => $file->size,
             'uploaded_date'=> (new DateTime())->getTimestamp(),
          );
