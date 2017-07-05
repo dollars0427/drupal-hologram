@@ -1,12 +1,17 @@
 @import url('../node_modules/hologram-image-upload/dist/css/Hologram.css');
 
+.image-wrapper{
+   overflow: auto;
+}
+
 .preview-image{
    position: relative;
-   width: 200px;
-   height: 200px;
+   width: 100px;
+   height: 100px;
    margin-bottom: 2em;
    border-style: dashed dashed dashed dashed;
    overflow: hidden;
+   float:left;
 }
 
 .preview-image img{
@@ -17,10 +22,15 @@
    border-radius: 10px;
 }
 
+.image-info{
+   display: inline-block;
+   margin-left: 1em;
+}
+
 .preview-image svg{
    position: absolute;
-   top: 10px;
-   right: 10px;
-   font-size: 24px;
+   top: 0;
+   right: 5px;
+   font-size: 20px;
    color: #7F7F7F;
 }

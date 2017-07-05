@@ -23,35 +23,48 @@ class PreviewCom extends React.Component {
                <h2>Uploaded Image:</h2>
                {this.props.files.map((file) =>
                   <div className="image-wrapper">
-                     <div key={file.key} className="preview-image">
-                        <FaTimesCircle className="remove-icon" onClick={()=> {
-                              this.props.dispatch(removeFile(file.key))
-                           }}/>
-                        <img src={this.props.uploadUrl + file['name']}/>
+                     <div className="image-info">
+                        <a href={this.props.uploadUrl + file['name']}>{file.name}</a>
+                        <form>
+                           <label>
+                              Alt Text
+                           </label>
+                           <input type="text" name="alt-text" className="form-text" />
+                           <label>
+                              Title Text
+                           </label>
+                           <input type="text" name="title-text" className="form-text" />
+                        </form>
                      </div>
-                  </div>
-               )}
-            </div> :  <DropzoneCom
-            onUploaded={this.onUploaded.bind(this)}
-            config={this.props.config}/>
-      }
-   </div>
-);}
+                        <div key={file.key} className="preview-image">
+                           <FaTimesCircle className="remove-icon" onClick={()=> {
+                                 this.props.dispatch(removeFile(file.key))
+                              }}/>
+                              <img src={this.props.uploadUrl + file['name']}/>
+                           </div>
+                        </div>
+                     )}
+                  </div> :  <DropzoneCom
+                  onUploaded={this.onUploaded.bind(this)}
+                  config={this.props.config}/>
+            }
+         </div>
+      );}
 
-static propTypes = {
-   files: React.PropTypes.array,
-   uploadUrl: React.PropTypes.string,
-   config: React.PropTypes.object,
-   onComplete: React.PropTypes.func
-};
+      static propTypes = {
+         files: React.PropTypes.array,
+         uploadUrl: React.PropTypes.string,
+         config: React.PropTypes.object,
+         onComplete: React.PropTypes.func
+      };
 
-static defaultProps = {
-   onComplete: () => {}
-};
-}
+      static defaultProps = {
+         onComplete: () => {}
+      };
+   }
 
-const mapStateToProps = (state) => {
-   return {files: state.files};
-}
+   const mapStateToProps = (state) => {
+      return {files: state.files};
+   }
 
-export default connect(mapStateToProps)(PreviewCom)
+   export default connect(mapStateToProps)(PreviewCom)
