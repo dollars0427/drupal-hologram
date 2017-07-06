@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import FaTimesCircle from 'react-icons/lib/fa/times-circle';
-import {addFiles, removeFile} from '../actions';
+import {addFiles, updateAlt, updateTitle, removeFile} from '../actions';
 import DropzoneCom from './Dropzone';
 
 class PreviewCom extends React.Component {
@@ -22,18 +22,22 @@ class PreviewCom extends React.Component {
             {this.props.files.length > 0 ? <div>
                <h2>Uploaded Image:</h2>
                {this.props.files.map((file) =>
-                  <div className="image-wrapper">
+                  <div key={file.key} className="image-wrapper" >
                      <div className="image-info">
                         <a href={this.props.uploadUrl + file['name']}>{file.name}</a>
                         <form>
                            <label>
                               Alt Text
                            </label>
-                           <input type="text" name="alt-text" className="form-text" />
+                           <input type="text" name="alt-text" className="form-text" onChange={(e)=>{
+                                 this.props.dispatch(updateAlt(file.key, e.target.value));
+                              }}/>
                            <label>
                               Title Text
                            </label>
-                           <input type="text" name="title-text" className="form-text" />
+                           <input type="text" name="title-text" className="form-text" onChange={(e)=>{
+                                 this.props.dispatch(updateTitle(file.key, e.target.value));
+                              }}/>
                         </form>
                      </div>
                         <div key={file.key} className="preview-image">
