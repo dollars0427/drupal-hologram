@@ -86,7 +86,6 @@ function hologram_field_widget_form(&$form, &$form_state, $field, $instance, $la
    drupal_add_js(array('Hologram' => array('uploadUrl' => $upload_path)), array('type' => 'setting'));
    drupal_add_js(array('Hologram' => array('acceptType' => $extensions_setting)), array('type' => 'setting'));
    drupal_add_js(array('Hologram' => array('maxFiles' => (int)$field['cardinality'])), array('type' => 'setting'));
-   drupal_add_js(array('Hologram' => array('maxFileSize' => $max_filesize)), array('type' => 'setting'));
    drupal_add_js(array('Hologram' => array('enableAlt' => $instance['settings']['alt_field'])), array('type' => 'setting'));
    drupal_add_js(array('Hologram' => array('enableTitle' => $instance['settings']['title_field'])), array('type' => 'setting'));
 
@@ -158,10 +157,10 @@ function _hologram_entity_presave($entity, $fields, $form_state) {
          foreach($files as $delta => $file){
             $entity->{$field_name}[$lang][$delta]['fid'] = $file->fid;
 
-            if($file->alt){
+            if(isset($file->alt)){
                $entity->{$field_name}[$lang][$delta]['alt'] = $file->alt;
             }
-            if($file->title){
+            if(isset($file->title)){
                $entity->{$field_name}[$lang][$delta]['title'] = $file->title;
             }
          }
