@@ -6,11 +6,13 @@
          var area = $(field).find('.hologram-area').get(0);
          var handle = window.hologram(area, {
             uploadUrl: Drupal.settings.Hologram.uploadUrl,
+            enableTitle: Drupal.settings.Hologram.enableTitle,
+            enableAlt: Drupal.settings.Hologram.enableAlt,
             onComplete: function(result){
                var json = JSON.stringify(result);
                $(jsonField).val(json);
             },
-            config: {
+            dropzoneConfig: {
                maxFiles: Drupal.settings.Hologram.maxFiles,
                uploader: '/hologram/upload'
             },

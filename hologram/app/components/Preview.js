@@ -26,18 +26,37 @@ class PreviewCom extends React.Component {
                      <div className="image-info">
                         <a href={this.props.uploadUrl + file['name']}>{file.name}</a>
                         <form>
-                           <label>
-                              Alt Text
-                           </label>
-                           <input type="text" name="alt-text" className="form-text" value={file.alt} onChange={(e)=>{
-                                 this.props.dispatch(updateAlt(file.key, e.target.value));
-                              }}/>
-                           <label>
-                              Title Text
-                           </label>
-                           <input type="text" name="title-text" className="form-text" value={file.title} onChange={(e)=>{
-                                 this.props.dispatch(updateTitle(file.key, e.target.value));
-                              }}/>
+                           {this.props.enableAlt == '1' ?
+                              <div>
+                                 <label>
+                                    Alt Text
+                                 </label>
+                                 <input
+                                    type="text"
+                                    name="alt-text"
+                                    className="form-text"
+                                    value={file.alt}
+                                    onChange={(e)=>{
+                                       this.props.dispatch(updateAlt(file.key, e.target.value));
+                                    }}/>
+                              </div>
+                           : null}
+
+                           {this.props.enableTitle == '1' ?
+                              <div>
+                                 <label>
+                                    Title Text
+                                 </label>
+                                 <input
+                                    type="text"
+                                    name="title-text"
+                                    className="form-text"
+                                    value={file.title}
+                                    onChange={(e)=>{
+                                       this.props.dispatch(updateTitle(file.key, e.target.value));
+                                    }}/>
+                              </div>
+                           : null}
                         </form>
                      </div>
                         <div key={file.key} className="preview-image">
@@ -50,7 +69,7 @@ class PreviewCom extends React.Component {
                      )}
                   </div> :  <DropzoneCom
                   onUploaded={this.onUploaded.bind(this)}
-                  config={this.props.config}/>
+                  config={this.props.dropzoneConfig}/>
             }
          </div>
       );}
@@ -58,11 +77,15 @@ class PreviewCom extends React.Component {
       static propTypes = {
          files: React.PropTypes.array,
          uploadUrl: React.PropTypes.string,
-         config: React.PropTypes.object,
+         enableTitle: React.PropTypes.number,
+         enableAlt: React.PropTypes.number,
+         dropzoneConfig: React.PropTypes.object,
          onComplete: React.PropTypes.func
       };
 
       static defaultProps = {
+         enableTitle: 0,
+         enableAlt: 0,
          onComplete: () => {}
       };
    }
