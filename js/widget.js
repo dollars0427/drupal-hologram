@@ -4,6 +4,12 @@
       Array.prototype.forEach.call(fields, function(field){
          var jsonField = $(field).find('input').get(0);
          var area = $(field).find('.hologram-area').get(0);
+         if(Drupal.settings.Hologram.maxFileSize){
+            var maxFileSize = Drupal.settings.Hologram.maxFileSize;
+         }else{
+            var maxFileSize = Infinity;
+         }
+
          var handle = window.hologram(area, {
             uploadUrl: Drupal.settings.Hologram.uploadUrl,
             enableTitle: Drupal.settings.Hologram.enableTitle,
@@ -14,7 +20,7 @@
             },
             config: {
                dropzoneConfig: {
-                  maxSize: Drupal.settings.Hologram.maxFileSize,
+                  maxSize: maxFileSize,
                   accept: Drupal.settings.Hologram.acceptType,
                   style: {
                      width: '100%',
