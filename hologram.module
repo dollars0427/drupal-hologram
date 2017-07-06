@@ -133,6 +133,13 @@ function _hologram_entity_presave($entity, $fields, $form_state) {
       if(!empty($files)){
          foreach($files as $delta => $file){
             $entity->{$field_name}[$lang][$delta]['fid'] = $file->fid;
+
+            if($file->alt){
+               $entity->{$field_name}[$lang][$delta]['alt'] = $file->alt;
+            }
+            if($file->title){
+               $entity->{$field_name}[$lang][$delta]['title'] = $file->title;
+            }
          }
       }else{
          unset($entity->{$field_name}[$lang][0]['fid']);
