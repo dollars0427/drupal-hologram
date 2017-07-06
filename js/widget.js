@@ -14,6 +14,7 @@
             },
             config: {
                dropzoneConfig: {
+                  maxSize: Drupal.settings.Hologram.maxFileSize,
                   accept: Drupal.settings.Hologram.acceptType,
                   style: {
                      width: '100%',

@@ -78,9 +78,16 @@ function hologram_field_widget_form(&$form, &$form_state, $field, $instance, $la
    }
    $extensions_setting = implode(',', $extensions_setting);
 
+   if($instance['settings']['max_filesize']){
+      $max_filesize = int($instance['settings']['max_filesize']);
+   }else{
+      $max_filesize = ini_get('upload_max_filesize');
+   }
+
    drupal_add_js(array('Hologram' => array('uploadUrl' => $upload_path)), array('type' => 'setting'));
    drupal_add_js(array('Hologram' => array('acceptType' => $extensions_setting)), array('type' => 'setting'));
    drupal_add_js(array('Hologram' => array('maxFiles' => (int)$field['cardinality'])), array('type' => 'setting'));
+   drupal_add_js(array('Hologram' => array('maxFileSize' => $max_filesize)), array('type' => 'setting'));
    drupal_add_js(array('Hologram' => array('enableAlt' => $instance['settings']['alt_field'])), array('type' => 'setting'));
    drupal_add_js(array('Hologram' => array('enableTitle' => $instance['settings']['title_field'])), array('type' => 'setting'));
 
