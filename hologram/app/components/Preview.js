@@ -29,13 +29,13 @@ class PreviewCom extends React.Component {
                            <label>
                               Alt Text
                            </label>
-                           <input type="text" name="alt-text" className="form-text" onChange={(e)=>{
+                           <input type="text" name="alt-text" className="form-text" value={file.alt} onChange={(e)=>{
                                  this.props.dispatch(updateAlt(file.key, e.target.value));
                               }}/>
                            <label>
                               Title Text
                            </label>
-                           <input type="text" name="title-text" className="form-text" onChange={(e)=>{
+                           <input type="text" name="title-text" className="form-text" value={file.title} onChange={(e)=>{
                                  this.props.dispatch(updateTitle(file.key, e.target.value));
                               }}/>
                         </form>

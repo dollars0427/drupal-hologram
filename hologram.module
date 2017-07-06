@@ -73,8 +73,12 @@ function hologram_field_widget_form(&$form, &$form_state, $field, $instance, $la
    if(!empty($items)){
       $images = array();
       foreach($items as $item){
-         $item = array('key'=>$item['fid'], 'fid' => $item['fid'], 'name' => $item['filename']);
-         array_push($images, $item);
+         $image = array('key'=>$item['fid'], 'fid' => $item['fid'], 'name' => $item['filename']);
+         if(isset($item['alt'])){
+            $image['alt'] = $item['alt'];
+            $image['title'] = $item['title'];
+         }
+         array_push($images, $image);
       }
       $item_json = json_encode($images);
    }
