@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import FaTimesCircle from 'react-icons/lib/fa/times-circle';
 import {addFiles, updateAlt, updateTitle, removeFile} from '../actions';
@@ -75,12 +76,12 @@ class PreviewCom extends React.Component {
       );}
 
       static propTypes = {
-         files: React.PropTypes.array,
-         uploadUrl: React.PropTypes.string,
-         enableTitle: React.PropTypes.number,
-         enableAlt: React.PropTypes.number,
-         config: React.PropTypes.object,
-         onComplete: React.PropTypes.func
+         files: PropTypes.array,
+         uploadUrl: PropTypes.string,
+         enableTitle: PropTypes.number,
+         enableAlt: PropTypes.number,
+         config: PropTypes.object,
+         onComplete: PropTypes.func
       };
 
       static defaultProps = {

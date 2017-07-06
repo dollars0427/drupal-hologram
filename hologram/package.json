@@ -13,14 +13,15 @@
     "babel-preset-react": "6.16.0",
     "babel-preset-stage-0": "6.16.0",
     "gulp": "3.9.1",
+    "gulp-concat-css": "^2.3.0",
     "gulp-util": "3.0.7",
     "redux-logger": "3.0.1",
     "webpack": "1.13.3"
   },
   "dependencies": {
-    "gulp-concat-css": "^2.3.0",
     "hologram-image-upload": "2.3.4",
     "immutability-helper": "2.1.2",
+    "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-icons": "^2.2.5",

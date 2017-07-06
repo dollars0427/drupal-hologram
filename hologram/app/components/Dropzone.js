@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Hologram from 'hologram-image-upload';
 
 class DropzoneCom extends React.Component {
@@ -19,8 +20,8 @@ class DropzoneCom extends React.Component {
     );}
 
     static propTypes = {
-        onUploaded: React.PropTypes.func,
-        config: React.PropTypes.object
+        onUploaded: PropTypes.func,
+        config: PropTypes.object
     };
 }
 
