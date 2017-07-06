@@ -11,6 +11,7 @@
                $(jsonField).val(json);
             },
             config: {
+               maxFiles: Drupal.settings.Hologram.maxFiles,
                uploader: '/hologram/upload'
             },
          });

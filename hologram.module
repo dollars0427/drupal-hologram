@@ -65,10 +65,13 @@ function hologram_field_widget_info(){
 */
 function hologram_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
    $upload_path = '/' . variable_get('file_public_path', conf_path() . '/files/');
+
    drupal_add_css(drupal_get_path('module', 'hologram') . '/hologram/dist/css/hologram.css');
    drupal_add_js(drupal_get_path('module', 'hologram') . '/hologram/dist/bundle.js');
    drupal_add_js(drupal_get_path('module', 'hologram') . '/js/widget.js');
+
    drupal_add_js(array('Hologram' => array('uploadUrl' => $upload_path)), array('type' => 'setting'));
+   drupal_add_js(array('Hologram' => array('maxFiles' => $field['cardinality'])), array('type' => 'setting'));
 
    if(!empty($items)){
       $images = array();
