@@ -27,6 +27,10 @@
    margin-left: 1em;
 }
 
+.image-info input{
+   width: 100%;
+}
+
 .preview-image svg{
    position: absolute;
    top: 0;
