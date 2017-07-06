@@ -70,11 +70,17 @@ function hologram_field_widget_form(&$form, &$form_state, $field, $instance, $la
    drupal_add_js(drupal_get_path('module', 'hologram') . '/hologram/dist/bundle.js');
    drupal_add_js(drupal_get_path('module', 'hologram') . '/js/widget.js');
 
-   drupal_add_js(array('Hologram' => array('uploadUrl' => $upload_path)), array('type' => 'setting'));
-
-   if($field['cardinality'] !== '-1'){
-      drupal_add_js(array('Hologram' => array('maxFiles' => (int)$field['cardinality'])), array('type' => 'setting'));
+   $extensions = explode(' ', $instance['settings']['file_extensions']);
+   $extensions_setting = array();
+   foreach($extensions as $extension){
+      $extension = 'image/' . $extension;
+      array_push($extensions_setting, $extension);
    }
+   $extensions_setting = implode(',', $extensions_setting);
+
+   drupal_add_js(array('Hologram' => array('uploadUrl' => $upload_path)), array('type' => 'setting'));
+   drupal_add_js(array('Hologram' => array('acceptType' => $extensions_setting)), array('type' => 'setting'));
+   drupal_add_js(array('Hologram' => array('maxFiles' => (int)$field['cardinality'])), array('type' => 'setting'));
    drupal_add_js(array('Hologram' => array('enableAlt' => $instance['settings']['alt_field'])), array('type' => 'setting'));
    drupal_add_js(array('Hologram' => array('enableTitle' => $instance['settings']['title_field'])), array('type' => 'setting'));
 

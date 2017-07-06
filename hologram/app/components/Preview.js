@@ -69,7 +69,7 @@ class PreviewCom extends React.Component {
                      )}
                   </div> :  <DropzoneCom
                   onUploaded={this.onUploaded.bind(this)}
-                  config={this.props.dropzoneConfig}/>
+                  config={this.props.config}/>
             }
          </div>
       );}
@@ -79,7 +79,7 @@ class PreviewCom extends React.Component {
          uploadUrl: React.PropTypes.string,
          enableTitle: React.PropTypes.number,
          enableAlt: React.PropTypes.number,
-         dropzoneConfig: React.PropTypes.object,
+         config: React.PropTypes.object,
          onComplete: React.PropTypes.func
       };
 

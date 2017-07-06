@@ -12,7 +12,17 @@
                var json = JSON.stringify(result);
                $(jsonField).val(json);
             },
-            dropzoneConfig: {
+            config: {
+               dropzoneConfig: {
+                  accept: Drupal.settings.Hologram.acceptType,
+                  style: {
+                     width: '100%',
+                     padding: '2.5em 0',
+                     background: 'rgba(0,0,0,0.5)',
+                     textAlign: 'center',
+                     color: '#fff',
+                  },
+               },
                maxFiles: Drupal.settings.Hologram.maxFiles,
                uploader: '/hologram/upload'
             },
