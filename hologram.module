@@ -5,12 +5,12 @@
 */
 
 function hologram_menu(){
-   $items['hologram/upload'] = array(
-      'page callback' => 'hologram_upload',
-      'access arguments' => array('administer media'),
-   );
+  $items['hologram/upload'] = array(
+    'page callback' => 'hologram_upload',
+    'access arguments' => array('administer media'),
+  );
 
-   return $items;
+  return $items;
 }
 
 /**
@@ -18,45 +18,45 @@ function hologram_menu(){
 */
 
 function hologram_upload(){
-   header('Content-type:application/json;charset=utf-8');
-   $request = file_get_contents('php://input');
-   $file = json_decode($request);
+  header('Content-type:application/json;charset=utf-8');
+  $request = file_get_contents('php://input');
+  $file = json_decode($request);
 
-   if($file){
-      $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $file->preview));
+  if($file){
+    $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $file->preview));
 
-      try{
-         $file_data = file_save_data($data, 'public://' . $file->name, FILE_EXISTS_REPLACE);
-         $uploaded_file = array(
-            'key'=> $file->key,
-            'fid'=> $file_data->fid,
-            'name' => $file->name,
-            'size' => $file->size,
-            'uploaded_date'=> (new DateTime())->getTimestamp(),
-         );
-         echo json_encode($uploaded_file, JSON_UNESCAPED_UNICODE);
-      }catch(Exception $e){
-         $result = array('message'=>'Upload Failed!', 'error' => $e);
-         echo json_encode($result);
-      }
-   }
-   exit();
+    try{
+      $file_data = file_save_data($data, 'public://' . $file->name, FILE_EXISTS_REPLACE);
+      $uploaded_file = array(
+        'key'=> $file->key,
+        'fid'=> $file_data->fid,
+        'name' => $file->name,
+        'size' => $file->size,
+        'uploaded_date'=> (new DateTime())->getTimestamp(),
+      );
+      echo json_encode($uploaded_file, JSON_UNESCAPED_UNICODE);
+    }catch(Exception $e){
+      $result = array('message'=>'Upload Failed!', 'error' => $e);
+      echo json_encode($result);
+    }
+  }
+  exit();
 }
 
 /**
 * Implements hook_field_widget_info().
 */
 function hologram_field_widget_info(){
-   return array(
-      'hologram_image' => array(
-         'label' => t('Hologram'),
-         'field types' => array('image'),
-         'behaviors' => array(
-            'multiple values' => FIELD_BEHAVIOR_CUSTOM,
-            'default value' => FIELD_BEHAVIOR_NONE,
-         ),
-      )
-   );
+  return array(
+    'hologram_image' => array(
+      'label' => t('Hologram'),
+      'field types' => array('image'),
+      'behaviors' => array(
+        'multiple values' => FIELD_BEHAVIOR_CUSTOM,
+        'default value' => FIELD_BEHAVIOR_NONE,
+      ),
+    )
+  );
 }
 
 /**
@@ -64,111 +64,113 @@ function hologram_field_widget_info(){
 *
 */
 function hologram_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-   $upload_path = '/' . variable_get('file_public_path', conf_path() . '/files/');
+  $upload_path = '/' . variable_get('file_public_path', conf_path() . '/files/');
 
-   drupal_add_css(drupal_get_path('module', 'hologram') . '/hologram/dist/css/hologram.css');
-   drupal_add_js(drupal_get_path('module', 'hologram') . '/hologram/dist/bundle.js');
-   drupal_add_js(drupal_get_path('module', 'hologram') . '/js/widget.js');
+  drupal_add_css(drupal_get_path('module', 'hologram') . '/hologram/dist/css/hologram.css');
+  drupal_add_js(drupal_get_path('module', 'hologram') . '/hologram/dist/bundle.js');
+  drupal_add_js(drupal_get_path('module', 'hologram') . '/js/widget.js');
 
-   $extensions = explode(' ', $instance['settings']['file_extensions']);
-   $extensions_setting = array();
-   foreach($extensions as $extension){
-      $extension = 'image/' . $extension;
-      array_push($extensions_setting, $extension);
-   }
-   $extensions_setting = implode(',', $extensions_setting);
+  $extensions = explode(' ', $instance['settings']['file_extensions']);
+  $extensions_setting = array();
+  foreach($extensions as $extension){
+    $extension = 'image/' . $extension;
+    array_push($extensions_setting, $extension);
+  }
+  $extensions_setting = implode(',', $extensions_setting);
 
-   if($instance['settings']['max_filesize']){
-      $max_filesize = int($instance['settings']['max_filesize']);
-      drupal_add_js(array('Hologram' => array('maxFileSize' => $max_filesize)), array('type' => 'setting'));
-   }
+  if($instance['settings']['max_filesize']){
+    $max_filesize = int($instance['settings']['max_filesize']);
+    drupal_add_js(array('Hologram' => array('maxFileSize' => $max_filesize)), array('type' => 'setting'));
+  }
 
-   drupal_add_js(array('Hologram' => array('uploadUrl' => $upload_path)), array('type' => 'setting'));
-   drupal_add_js(array('Hologram' => array('acceptType' => $extensions_setting)), array('type' => 'setting'));
-   drupal_add_js(array('Hologram' => array('maxFiles' => (int)$field['cardinality'])), array('type' => 'setting'));
-   drupal_add_js(array('Hologram' => array('enableAlt' => $instance['settings']['alt_field'])), array('type' => 'setting'));
-   drupal_add_js(array('Hologram' => array('enableTitle' => $instance['settings']['title_field'])), array('type' => 'setting'));
+  drupal_add_js(array('Hologram' => array('uploadUrl' => $upload_path)), array('type' => 'setting'));
+  drupal_add_js(array('Hologram' => array('acceptType' => $extensions_setting)), array('type' => 'setting'));
+  drupal_add_js(array('Hologram' => array('maxFiles' => (int)$field['cardinality'])), array('type' => 'setting'));
+  drupal_add_js(array('Hologram' => array('enableAlt' => $instance['settings']['alt_field'])), array('type' => 'setting'));
+  drupal_add_js(array('Hologram' => array('enableTitle' => $instance['settings']['title_field'])), array('type' => 'setting'));
 
-   if(!empty($items)){
-      $images = array();
-      foreach($items as $item){
-         $image = array('key'=>$item['fid'], 'fid' => $item['fid'], 'name' => $item['filename']);
-         if(isset($item['alt'])){
-            $image['alt'] = $item['alt'];
-            $image['title'] = $item['title'];
-         }
-         array_push($images, $image);
+  if(!empty($items)){
+    $images = array();
+    foreach($items as $item){
+      $random_key = bin2hex(mcrypt_create_iv(10, MCRYPT_DEV_URANDOM));
+      $image = array('key'=>$random_key, 'fid' => $item['fid'], 'name' => $item['filename']);
+      var_dump($image);
+      if(isset($item['alt'])){
+        $image['alt'] = $item['alt'];
+        $image['title'] = $item['title'];
       }
-      $item_json = json_encode($images);
-   }
+      array_push($images, $image);
+    }
+    $item_json = json_encode($images);
+  }
 
-   $element['value'] = array(
-      'image_data' => array(
-         '#type' => 'hidden',
-         '#default_value' => isset($item_json) ? $item_json : '',
-         '#attributes' => array('id  ' => 'hologram-image-data'),
-      ),
-      'hologram' => array(
-         '#title'=> $element['#title'],
-         '#type' => 'markup',
-         '#markup' => '<div class="hologram-wrapper"><label>' . $element['#title'] . '</label><div class="hologram-area"></div></div>',
-      ),
-   );
+  $element['value'] = array(
+    'image_data' => array(
+      '#type' => 'hidden',
+      '#default_value' => isset($item_json) ? $item_json : '',
+      '#attributes' => array('id  ' => 'hologram-image-data'),
+    ),
+    'hologram' => array(
+      '#title'=> $element['#title'],
+      '#type' => 'markup',
+      '#markup' => '<div class="hologram-wrapper"><label>' . $element['#title'] . '</label><div class="hologram-area"></div></div>',
+    ),
+  );
 
-   return $element;
+  return $element;
 }
 
 function hologram_field_attach_submit($entity_type, $entity, $form, &$form_state){
-   $fields = field_info_instances($entity_type, isset($entity->type) ? $entity->type : NULL);
-   if (isset($entity->type)) {
-      _hologram_entity_presave($entity, $fields, $form_state);
-   }else{
-      foreach ($fields as $bundle) {
-         _hologram_entity_presave($entity, $bundle, $form_state);
-      }
-   }
+  $fields = field_info_instances($entity_type, isset($entity->type) ? $entity->type : NULL);
+  if (isset($entity->type)) {
+    _hologram_entity_presave($entity, $fields, $form_state);
+  }else{
+    foreach ($fields as $bundle) {
+      _hologram_entity_presave($entity, $bundle, $form_state);
+    }
+  }
 }
 
 function _hologram_entity_presave($entity, $fields, $form_state) {
-   foreach ($fields as $field_name => $field) {
-      if ($field['widget']['type'] != 'hologram_image') {
-         continue;
+  foreach ($fields as $field_name => $field) {
+    if ($field['widget']['type'] != 'hologram_image') {
+      continue;
+    }
+    if (!isset($entity->{$field_name})) {
+      continue;
+    }
+
+    // Get the language key for the field, if fields language key is not
+    // $entity->language set $lang to 'und'.
+
+    $lang = LANGUAGE_NONE;
+    if (isset($entity->language) && isset($entity->{$field_name}[$entity->language])) {
+      $lang = $entity->language;
+    }
+
+    if(isset($form_state['values'][$field_name][$lang]['value']['image_data'])){
+      $images_data = $form_state['values'][$field_name][$lang]['value']['image_data'];
+      $files = json_decode($images_data);
+    }else{
+      $files = array();
+    }
+
+
+    if(!empty($files)){
+      foreach($files as $delta => $file){
+        $entity->{$field_name}[$lang][$delta]['fid'] = $file->fid;
+
+        if(isset($file->alt)){
+          $entity->{$field_name}[$lang][$delta]['alt'] = $file->alt;
+        }
+        if(isset($file->title)){
+          $entity->{$field_name}[$lang][$delta]['title'] = $file->title;
+        }
       }
-      if (!isset($entity->{$field_name})) {
-         continue;
-      }
-
-      // Get the language key for the field, if fields language key is not
-      // $entity->language set $lang to 'und'.
-
-      $lang = LANGUAGE_NONE;
-      if (isset($entity->language) && isset($entity->{$field_name}[$entity->language])) {
-         $lang = $entity->language;
-      }
-
-      if(isset($form_state['values'][$field_name][$lang]['value']['image_data'])){
-         $images_data = $form_state['values'][$field_name][$lang]['value']['image_data'];
-         $files = json_decode($images_data);
-      }else{
-         $files = array();
-      }
-
-
-      if(!empty($files)){
-         foreach($files as $delta => $file){
-            $entity->{$field_name}[$lang][$delta]['fid'] = $file->fid;
-
-            if(isset($file->alt)){
-               $entity->{$field_name}[$lang][$delta]['alt'] = $file->alt;
-            }
-            if(isset($file->title)){
-               $entity->{$field_name}[$lang][$delta]['title'] = $file->title;
-            }
-         }
-      }else{
-         unset($entity->{$field_name}[$lang][0]['fid']);
-      }
-   }
+    }else{
+      unset($entity->{$field_name}[$lang][0]['fid']);
+    }
+  }
 }
 
 ?>
