@@ -36,7 +36,7 @@ class PreviewCom extends React.Component {
                                     type="text"
                                     name="alt-text"
                                     className="form-text"
-                                    value={file.alt}
+                                    defaultValue={file.alt}
                                     onChange={(e)=>{
                                        this.props.dispatch(updateAlt(file.key, e.target.value));
                                     }}/>
@@ -52,7 +52,7 @@ class PreviewCom extends React.Component {
                                     type="text"
                                     name="title-text"
                                     className="form-text"
-                                    value={file.title}
+                                    defaultValue={file.title}
                                     onChange={(e)=>{
                                        this.props.dispatch(updateTitle(file.key, e.target.value));
                                     }}/>
