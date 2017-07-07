@@ -132,42 +132,39 @@ function hologram_field_attach_submit($entity_type, $entity, $form, &$form_state
 function _hologram_entity_presave($entity, $fields, $form_state) {
   global $language;
   $langcode = $language->language;
-   foreach ($fields as $field_name => $field) {
-      if ($field['widget']['type'] != 'hologram_image') {
-         continue;
-      }
-      if (!isset($entity->{$field_name})) {
-         continue;
-      }
+  foreach ($fields as $field_name => $field) {
+    if ($field['widget']['type'] != 'hologram_image') {
+      continue;
+    }
+    if (!isset($entity->{$field_name})) {
+      continue;
+    }
 
-      if(isset($form_state['values'][$field_name]['und']['value']['image_data'])){
-        $images_data = $form_state['values'][$field_name]['und']['value']['image_data'];
-      }else{
-        $images_data = $form_state['values'][$field_name][$langcode]['value']['image_data'];
-      }
+    if(isset($form_state['values'][$field_name]['und']['value']['image_data'])){
+      $images_data = $form_state['values'][$field_name]['und']['value']['image_data'];
+    }else{
+      $images_data = $form_state['values'][$field_name][$langcode]['value']['image_data'];
+    }
 
-      if($images_data){
-        $files = json_decode($images_data);
-      }else{
-        $files = array();
-      }
+    if($images_data){
+      $files = json_decode($images_data);
+    }else{
+      $files = array();
+    }
 
-      if(!empty($files)){
-         foreach($files as $delta => $file){
-            $entity->{$field_name}[$langcode][$delta]['fid'] = $file->fid;
+    if(!empty($files)){
+      foreach($files as $delta => $file){
+        $entity->{$field_name}[$langcode][$delta]['fid'] = $file->fid;
 
-            if(isset($file->alt)){
-               $entity->{$field_name}[$langcode][$delta]['alt'] = $file->alt;
-            }
-            if(isset($file->title)){
-               $entity->{$field_name}[$langcode][$delta]['title'] = $file->title;
-            }
-         }
-      }else{
-         unset($entity->{$field_name}[$langcode][0]['fid']);
+        if(isset($file->alt)){
+          $entity->{$field_name}[$langcode][$delta]['alt'] = $file->alt;
+        }
+        if(isset($file->title)){
+          $entity->{$field_name}[$langcode][$delta]['title'] = $file->title;
+        }
       }
     }else{
-      unset($entity->{$field_name}[$lang][0]['fid']);
+      unset($entity->{$field_name}[$langcode][0]['fid']);
     }
   }
 }
