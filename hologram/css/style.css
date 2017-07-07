@@ -26,6 +26,10 @@
    display: inline-block;
 }
 
+.image-name{
+  margin-left: 1em;
+}
+
 .image-form{
   margin-left: 1em;
 }

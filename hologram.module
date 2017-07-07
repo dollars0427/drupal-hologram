@@ -92,9 +92,7 @@ function hologram_field_widget_form(&$form, &$form_state, $field, $instance, $la
   if(!empty($items)){
     $images = array();
     foreach($items as $item){
-      $random_key = bin2hex(mcrypt_create_iv(10, MCRYPT_DEV_URANDOM));
-      $image = array('key'=>$random_key, 'fid' => $item['fid'], 'name' => $item['filename']);
-      var_dump($image);
+      $image = array('key'=> uniqid(), 'fid' => $item['fid'], 'name' => $item['filename']);
       if(isset($item['alt'])){
         $image['alt'] = $item['alt'];
         $image['title'] = $item['title'];

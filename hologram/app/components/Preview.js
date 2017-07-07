@@ -25,7 +25,7 @@ class PreviewCom extends React.Component {
                {this.props.files.map((file) =>
                   <div key={file.key} className="image-wrapper" >
                      <div className="image-info">
-                        <a href={this.props.uploadUrl + file['name']}>{file.name}</a>
+                        <a className="image-name" href={this.props.uploadUrl + file['name']}>{file.name}</a>
                         <form>
                            {this.props.enableAlt == '1' ?
                               <div className="image-form">
