@@ -138,13 +138,6 @@ function _hologram_entity_presave($entity, $fields, $form_state) {
          continue;
       }
 
-      if(isset($form_state['values'][$field_name]['und']['value']['image_data'])){
-         $images_data = $form_state['values'][$field_name]['und']['value']['image_data'];
-         $files = json_decode($images_data);
-      }else{
-         $files = array();
-      }
-
       // Get the language key for the field, if fields language key is not
       // $entity->language set $lang to 'und'.
 
@@ -152,6 +145,14 @@ function _hologram_entity_presave($entity, $fields, $form_state) {
       if (isset($entity->language) && isset($entity->{$field_name}[$entity->language])) {
          $lang = $entity->language;
       }
+
+      if(isset($form_state['values'][$field_name][$lang]['value']['image_data'])){
+         $images_data = $form_state['values'][$field_name][$lang]['value']['image_data'];
+         $files = json_decode($images_data);
+      }else{
+         $files = array();
+      }
+
 
       if(!empty($files)){
          foreach($files as $delta => $file){

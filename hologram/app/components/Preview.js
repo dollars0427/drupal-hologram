@@ -28,7 +28,7 @@ class PreviewCom extends React.Component {
                         <a href={this.props.uploadUrl + file['name']}>{file.name}</a>
                         <form>
                            {this.props.enableAlt == '1' ?
-                              <div className="image-info">
+                              <div className="image-form">
                                  <label>
                                     Alt Text
                                  </label>
@@ -44,7 +44,7 @@ class PreviewCom extends React.Component {
                            : null}
 
                            {this.props.enableTitle == '1' ?
-                              <div>
+                              <div className="image-form">
                                  <label>
                                     Title Text
                                  </label>
