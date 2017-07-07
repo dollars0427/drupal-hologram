@@ -10,7 +10,7 @@
             var maxFileSize = Infinity;
          }
 
-         var handle = window.hologram(area, {
+         var config =  {
             uploadUrl: Drupal.settings.Hologram.uploadUrl,
             enableTitle: Drupal.settings.Hologram.enableTitle,
             enableAlt: Drupal.settings.Hologram.enableAlt,
@@ -33,7 +33,9 @@
                maxFiles: Drupal.settings.Hologram.maxFiles,
                uploader: '/hologram/upload'
             },
-         });
+         }
+
+         var handle = window.hologram(area, config);
          handle.store
          handle.addFiles
 
