@@ -124,30 +124,35 @@ function hologram_field_widget_settings_form($field, $instance){
       '#type' => 'textfield',
       '#title' => t('Minimum Crop Width'),
       '#description' => t('A minimum crop width, as a percentage of the image width.'),
+      '#element_validate' => array('element_validate_integer_positive'),
       '#default_value' => isset($instance['widget']['settings']['min_width']) ? $instance['widget']['settings']['min_width'] : '',
     ),
     'min_height' => array(
       '#type' => 'textfield',
       '#title' => t('Minimum Crop Height'),
       '#description' => t('A minimum crop height, as a percentage of the image height.'),
+      '#element_validate' => array('element_validate_integer_positive'),
       '#default_value' => isset($instance['widget']['settings']['min_height']) ? $instance['widget']['settings']['min_height'] : '',
     ),
    'max_width' => array(
      '#type' => 'textfield',
      '#title' => t('Max Crop Width'),
      '#description' => t('A maximum crop width, as a percentage of the image width.'),
+     '#element_validate' => array('element_validate_integer_positive'),
      '#default_value' => isset($instance['widget']['settings']['max_width']) ? $instance['widget']['settings']['max_width'] : '',
    ),
    'max_height' => array(
      '#type' => 'textfield',
      '#title' => t('Max Crop Height'),
      '#description' => t('A maximum crop height, as a percentage of the image height.'),
+     '#element_validate' => array('element_validate_integer_positive'),
      '#default_value' => isset($instance['widget']['settings']['max_height']) ? $instance['widget']['settings']['max_height'] : '',
    ),
    'aspect' => array(
      '#type' => 'textfield',
      '#title' => t('Aspect'),
-     '#description' => t('The aspect of cropped image.'),
+     '#description' => t('The aspect of cropped image. Example: 16/9'),
+     '#element_validate' => array('element_validate_integer_positive'),
      '#default_value' => isset($instance['widget']['settings']['aspect']) ? $instance['widget']['settings']['aspect'] : '',
    ),
  );
@@ -179,8 +184,9 @@ function _hologram_entity_presave($entity, $fields, $form_state) {
 
     if(isset($form_state['values'][$field_name]['und']['value']['image_data'])){
       $langcode = 'und';
-      $images_data = $form_state['values'][$field_name][$langcode]['value']['image_data'];
     }
+
+    $images_data = $form_state['values'][$field_name][$langcode]['value']['image_data'];
 
     if($images_data){
       $files = json_decode($images_data);
@@ -198,6 +204,7 @@ function _hologram_entity_presave($entity, $fields, $form_state) {
         if(isset($file->title)){
           $entity->{$field_name}[$langcode][$delta]['title'] = $file->title;
         }
+        $entity->{$field_name}[$langcode][$delta]['caption'] = 'Test';
       }
     }else{
       unset($entity->{$field_name}[$langcode][0]['fid']);
