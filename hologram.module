@@ -178,6 +178,7 @@ function hologram_field_widget_settings_form($field, $instance){
    'aspect' => array(
      '#type' => 'textfield',
      '#title' => t('Aspect'),
+     '#element_validate' => array('_hologram_check_aspect'),
      '#description' => t('The aspect of cropped image. Example: 16/9'),
      '#default_value' => isset($instance['widget']['settings']['aspect']) ? $instance['widget']['settings']['aspect'] : '',
    ),
@@ -233,6 +234,17 @@ function _hologram_entity_presave($entity, $fields, $form_state) {
       }
     }else{
       unset($entity->{$field_name}[$langcode][0]['fid']);
+    }
+  }
+}
+
+function _hologram_check_aspect($form, &$form_state){
+  $aspect = $form_state['values']['instance']['widget']['settings']['aspect'];
+  if($aspect){
+    $aspect_value = explode('/', $form_state['values']['instance']['widget']['settings']['aspect']);
+
+    if(count($aspect_value) !== 2){
+      form_set_error('aspect', t('Aspect format should like: 16/9.'));
     }
   }
 }
