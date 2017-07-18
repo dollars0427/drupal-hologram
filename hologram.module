@@ -65,7 +65,7 @@ function hologram_field_widget_info(){
 */
 function hologram_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
   $upload_path = '/' . variable_get('file_public_path', conf_path() . '/files/');
-  
+
   $extensions = explode(' ', $instance['settings']['file_extensions']);
   $extensions_setting = array();
   foreach($extensions as $extension){
@@ -75,8 +75,39 @@ function hologram_field_widget_form(&$form, &$form_state, $field, $instance, $la
   $extensions_setting = implode(',', $extensions_setting);
 
   if($instance['settings']['max_filesize']){
-    $max_filesize = int($instance['settings']['max_filesize']);
+    $max_filesize = (int)$instance['settings']['max_filesize'];
     drupal_add_js(array('Hologram' => array('maxFileSize' => $max_filesize)), array('type' => 'setting'));
+  }
+
+  if($instance['widget']['settings']['min_width']){
+    $min_width = (int)$instance['widget']['settings']['min_width'];
+    drupal_add_js(array('Hologram' => array('minWidth' => $min_width)), array('type' => 'setting'));
+  }
+
+  if($instance['widget']['settings']['max_width']){
+    $max_width = (int)$instance['widget']['settings']['max_width'];
+    drupal_add_js(array('Hologram' => array('maxWidth' => $max_width)), array('type' => 'setting'));
+  }
+
+  if($instance['widget']['settings']['min_height']){
+    $min_height = (int)$instance['widget']['settings']['min_height'];
+    drupal_add_js(array('Hologram' => array('minHeight' => $min_height)), array('type' => 'setting'));
+  }
+
+  if($instance['widget']['settings']['max_height']){
+    $max_height = (int)$instance['widget']['settings']['max_height'];
+    drupal_add_js(array('Hologram' => array('maxHeight' => $max_height)), array('type' => 'setting'));
+  }
+
+  if($instance['widget']['settings']['max_height']){
+    $max_height = (int)$instance['widget']['settings']['max_height'];
+    drupal_add_js(array('Hologram' => array('maxHeight' => $max_height)), array('type' => 'setting'));
+  }
+
+  if($instance['widget']['settings']['aspect']){
+    $aspect = explode('/', $instance['widget']['settings']['aspect']);
+    $aspect = (int)$aspect[0] / (int)$aspect[1];
+    drupal_add_js(array('Hologram' => array('aspect' => $aspect)), array('type' => 'setting'));
   }
 
   drupal_add_js(array('Hologram' => array('uploadUrl' => $upload_path)), array('type' => 'setting'));
@@ -123,6 +154,13 @@ function hologram_field_widget_settings_form($field, $instance){
       '#element_validate' => array('element_validate_integer_positive'),
       '#default_value' => isset($instance['widget']['settings']['min_width']) ? $instance['widget']['settings']['min_width'] : '',
     ),
+    'max_width' => array(
+      '#type' => 'textfield',
+      '#title' => t('Max Crop Width'),
+      '#description' => t('A maximum crop width, as a percentage of the image width.'),
+      '#element_validate' => array('element_validate_integer_positive'),
+      '#default_value' => isset($instance['widget']['settings']['max_width']) ? $instance['widget']['settings']['max_width'] : '',
+    ),
     'min_height' => array(
       '#type' => 'textfield',
       '#title' => t('Minimum Crop Height'),
@@ -130,25 +168,17 @@ function hologram_field_widget_settings_form($field, $instance){
       '#element_validate' => array('element_validate_integer_positive'),
       '#default_value' => isset($instance['widget']['settings']['min_height']) ? $instance['widget']['settings']['min_height'] : '',
     ),
-   'max_width' => array(
-     '#type' => 'textfield',
-     '#title' => t('Max Crop Width'),
-     '#description' => t('A maximum crop width, as a percentage of the image width.'),
-     '#element_validate' => array('element_validate_integer_positive'),
-     '#default_value' => isset($instance['widget']['settings']['max_width']) ? $instance['widget']['settings']['max_width'] : '',
-   ),
-   'max_height' => array(
-     '#type' => 'textfield',
-     '#title' => t('Max Crop Height'),
-     '#description' => t('A maximum crop height, as a percentage of the image height.'),
-     '#element_validate' => array('element_validate_integer_positive'),
-     '#default_value' => isset($instance['widget']['settings']['max_height']) ? $instance['widget']['settings']['max_height'] : '',
-   ),
+    'max_height' => array(
+      '#type' => 'textfield',
+      '#title' => t('Max Crop Height'),
+      '#description' => t('A maximum crop height, as a percentage of the image height.'),
+      '#element_validate' => array('element_validate_integer_positive'),
+      '#default_value' => isset($instance['widget']['settings']['max_height']) ? $instance['widget']['settings']['max_height'] : '',
+    ),
    'aspect' => array(
      '#type' => 'textfield',
      '#title' => t('Aspect'),
      '#description' => t('The aspect of cropped image. Example: 16/9'),
-     '#element_validate' => array('element_validate_integer_positive'),
      '#default_value' => isset($instance['widget']['settings']['aspect']) ? $instance['widget']['settings']['aspect'] : '',
    ),
  );
@@ -200,7 +230,6 @@ function _hologram_entity_presave($entity, $fields, $form_state) {
         if(isset($file->title)){
           $entity->{$field_name}[$langcode][$delta]['title'] = $file->title;
         }
-        $entity->{$field_name}[$langcode][$delta]['caption'] = 'Test';
       }
     }else{
       unset($entity->{$field_name}[$langcode][0]['fid']);

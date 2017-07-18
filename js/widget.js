@@ -4,13 +4,14 @@
       Array.prototype.forEach.call(fields, function(field){
          var jsonField = $(field).find('input').get(0);
          var area = $(field).find('.hologram-area').get(0);
+
          if(Drupal.settings.Hologram.maxFileSize){
             var maxFileSize = Drupal.settings.Hologram.maxFileSize;
          }else{
             var maxFileSize = Infinity;
          }
 
-         var config =  {
+         var settings =  {
             uploadUrl: Drupal.settings.Hologram.uploadUrl,
             enableTitle: Drupal.settings.Hologram.enableTitle,
             enableAlt: Drupal.settings.Hologram.enableAlt,
@@ -35,7 +36,34 @@
             },
          }
 
-         var handle = window.hologram(area, config);
+         var cropperConfig = {crop:{}};
+
+         if(Drupal.settings.Hologram.minWidth){
+           cropperConfig.minWidth = Drupal.settings.Hologram.minWidth;
+         }
+
+         if(Drupal.settings.Hologram.maxWidth){
+           cropperConfig.maxWidth = Drupal.settings.Hologram.maxWidth;
+         }
+
+         if(Drupal.settings.Hologram.minHeight){
+           cropperConfig.minHeight = Drupal.settings.Hologram.minHeight;
+         }
+
+         if(Drupal.settings.Hologram.maxHeight){
+           cropperConfig.maxHeight = Drupal.settings.Hologram.maxHeight;
+         }
+
+         if(Drupal.settings.Hologram.aspect){
+           cropperConfig.crop.aspect = Drupal.settings.Hologram.aspect;
+         }
+
+
+         if(cropperConfig){
+           settings.config.cropperConfig = cropperConfig;
+         }
+
+         var handle = window.hologram(area, settings);
          handle.store
          handle.addFiles
 
