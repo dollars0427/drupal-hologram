@@ -1,4 +1,7 @@
 name = Hologram
 description = Picture field widget which include image cropper function.
 core = 7.x
+stylesheets[all][] = hologram/dist/css/hologram.css
+scripts[] = hologram/dist/bundle.js
+scripts[] = js/widget.js
 package = Fields
