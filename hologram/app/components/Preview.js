@@ -18,6 +18,7 @@ class PreviewCom extends React.Component {
    }
 
    render() {
+      const { getPreviewUrl } = this.props;
       return (
          <div>
             {this.props.files.length > 0 ? <div>
@@ -25,7 +26,7 @@ class PreviewCom extends React.Component {
                {this.props.files.map((file) =>
                   <div key={file.key} className="image-wrapper" >
                      <div className="image-info">
-                        <a className="image-name" href={this.props.uploadUrl + file['name']}>{file.name}</a>
+                        <a className="image-name" href={getPreviewUrl(this.props, file)}>{file.name}</a>
                         <form>
                            {this.props.enableAlt == '1' ?
                               <div className="image-form">
@@ -64,7 +65,7 @@ class PreviewCom extends React.Component {
                            <FaTimesCircle className="remove-icon" onClick={()=> {
                                  this.props.dispatch(removeFile(file.key))
                               }}/>
-                              <img src={this.props.uploadUrl + file['name']}/>
+                              <img src={getPreviewUrl(this.props, file)}/>
                            </div>
                         </div>
                      )}
@@ -81,12 +82,14 @@ class PreviewCom extends React.Component {
          enableTitle: PropTypes.number,
          enableAlt: PropTypes.number,
          config: PropTypes.object,
+         getPreviewUrl: PropTypes.func,
          onComplete: PropTypes.func
       };
 
       static defaultProps = {
          enableTitle: 0,
          enableAlt: 0,
+         getPreviewUrl: (props, file) => props.uploadUrl + file['name'],
          onComplete: () => {}
       };
    }
