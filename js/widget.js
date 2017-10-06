@@ -15,6 +15,10 @@
             uploadUrl: Drupal.settings.Hologram.uploadUrl,
             enableTitle: Drupal.settings.Hologram.enableTitle,
             enableAlt: Drupal.settings.Hologram.enableAlt,
+            getPreviewUrl: function(props, file) {
+               if (typeof file.preview_url != 'undefined') return file.preview_url;
+               return props.uploadUrl + file['name'];
+            },
             onComplete: function(result){
                var json = JSON.stringify(result);
                $(jsonField).val(json);
