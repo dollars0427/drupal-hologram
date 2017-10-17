@@ -150,40 +150,53 @@ function hologram_field_widget_settings_form($field, $instance){
     'min_width' => array(
       '#type' => 'textfield',
       '#title' => t('Minimum Crop Width'),
+      '#field_suffix' => '%',
       '#description' => t('A minimum crop width, as a percentage of the image width.'),
-      '#element_validate' => array('element_validate_integer_positive'),
+      '#element_validate' => array('element_validate_integer_positive', 'hologram_width_height_validate'),
       '#default_value' => isset($instance['widget']['settings']['min_width']) ? $instance['widget']['settings']['min_width'] : '',
     ),
     'max_width' => array(
       '#type' => 'textfield',
       '#title' => t('Max Crop Width'),
+      '#field_suffix' => '%',
       '#description' => t('A maximum crop width, as a percentage of the image width.'),
-      '#element_validate' => array('element_validate_integer_positive'),
+      '#element_validate' => array('element_validate_integer_positive', 'hologram_width_height_validate'),
       '#default_value' => isset($instance['widget']['settings']['max_width']) ? $instance['widget']['settings']['max_width'] : '',
     ),
     'min_height' => array(
       '#type' => 'textfield',
       '#title' => t('Minimum Crop Height'),
+      '#field_suffix' => '%',
       '#description' => t('A minimum crop height, as a percentage of the image height.'),
-      '#element_validate' => array('element_validate_integer_positive'),
+      '#element_validate' => array('element_validate_integer_positive', 'hologram_width_height_validate'),
       '#default_value' => isset($instance['widget']['settings']['min_height']) ? $instance['widget']['settings']['min_height'] : '',
     ),
     'max_height' => array(
       '#type' => 'textfield',
       '#title' => t('Max Crop Height'),
+      '#field_suffix' => '%',
       '#description' => t('A maximum crop height, as a percentage of the image height.'),
-      '#element_validate' => array('element_validate_integer_positive'),
+      '#element_validate' => array('element_validate_integer_positive', 'hologram_width_height_validate'),
       '#default_value' => isset($instance['widget']['settings']['max_height']) ? $instance['widget']['settings']['max_height'] : '',
     ),
-   'aspect' => array(
-     '#type' => 'textfield',
-     '#title' => t('Aspect'),
-     '#element_validate' => array('_hologram_check_aspect'),
-     '#description' => t('The aspect of cropped image. Example: 16/9'),
-     '#default_value' => isset($instance['widget']['settings']['aspect']) ? $instance['widget']['settings']['aspect'] : '',
-   ),
- );
- return $element;
+    'aspect' => array(
+      '#type' => 'textfield',
+      '#title' => t('Aspect'),
+      '#element_validate' => array('_hologram_check_aspect'),
+      '#description' => t('The aspect of cropped image. Example: 16/9'),
+      '#default_value' => isset($instance['widget']['settings']['aspect']) ? $instance['widget']['settings']['aspect'] : '',
+    ),
+  );
+  return $element;
+}
+
+function hologram_width_height_validate($element, &$form_state){
+  $value = (int)$element['#value'];
+  if($value > 100){
+    form_error($element, t('The :name option value should not be larger than 100.', array(
+      ':name' => t($element['#title'])
+    )));
+  }
 }
 
 function hologram_field_attach_submit($entity_type, $entity, $form, &$form_state){
