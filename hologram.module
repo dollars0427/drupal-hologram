@@ -230,11 +230,12 @@ function _hologram_entity_presave($entity_type, $entity, $fields, $form_state) {
       $langcode = 'und';
     }
 
-    $images_data = $form_state['values'][$field_name][$langcode]['value']['image_data'];
-
-    if($images_data){
+    if (isset($form_state['values'][$field_name])
+      && isset($form_state['values'][$field_name][$langcode])
+      && (($images_data = $form_state['values'][$field_name][$langcode]['value']['image_data']) != ''))
+    {
       $files = json_decode($images_data);
-    }else{
+    } else {
       $files = array();
     }
 
