@@ -9,12 +9,20 @@ class PreviewCom extends React.Component {
    onUploaded(result){
       var files = [];
       result['response'].forEach(function(response){
-         var result = response['text'];
-         result = JSON.parse(result);
-         files.push(result);
+         const result = response['text'];
+         const parsedResult = JSON.parse(result);
+         if (parsedResult.status === 'success') {
+           files.push(parsedResult.data);
+         } else {
+           console.error(parsedResult);
+           // TODO: need better error messaging
+           alert(parsedResult.message);
+         }
       });
-      this.props.dispatch(addFiles(files));
-      this.props.onComplete(files);
+      if (files.length > 0) {
+        this.props.dispatch(addFiles(files));
+        this.props.onComplete(files);
+      }
    }
 
    render() {

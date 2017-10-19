@@ -34,11 +34,24 @@ function hologram_upload(){
         'size' => $file->size,
         'uploaded_date'=> (new DateTime())->getTimestamp(),
       );
-      echo json_encode($uploaded_file, JSON_UNESCAPED_UNICODE);
+      echo json_encode(array(
+        'status' => 'success',
+        'message' => 'Upload success.',
+        'data' => $uploaded_file,
+      ), JSON_UNESCAPED_UNICODE);
     }catch(Exception $e){
-      $result = array('message'=>'Upload Failed!', 'error' => $e);
-      echo json_encode($result);
+      echo json_encode(array(
+        'status' => 'error',
+        'message' => 'Upload failed.',
+        'error' => $e,
+      ));
     }
+  } else {
+    echo json_encode(array(
+      'status' => 'error',
+      'message' => 'Upload failed.',
+      'error' => 'No file found in the upload',
+    ));
   }
   exit();
 }
