@@ -123,6 +123,7 @@ function hologram_field_widget_form(&$form, &$form_state, $field, $instance, $la
     drupal_add_js(array('Hologram' => array('aspect' => $aspect)), array('type' => 'setting'));
   }
 
+  drupal_add_js(array('Hologram' => array('uploaderUrl' => url('hologram/upload'))), array('type' => 'setting'));
   drupal_add_js(array('Hologram' => array('uploadUrl' => $upload_path)), array('type' => 'setting'));
   drupal_add_js(array('Hologram' => array('acceptType' => $extensions_setting)), array('type' => 'setting'));
   drupal_add_js(array('Hologram' => array('maxFiles' => (int)$field['cardinality'])), array('type' => 'setting'));
