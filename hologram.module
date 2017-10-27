@@ -255,8 +255,19 @@ function _hologram_entity_presave($entity_type, $entity, $fields, $form_state) {
 
     if(!empty($files)){
       foreach($files as $delta => $file){
-        $entity->{$field_name}[$langcode][$delta]['fid'] = $file->fid;
+        // if this is a new translation of a file
+        if (!isset($entity->{$field_name}[$langcode][$delta])) {
+          foreach ($entity->{$field_name} as $langvalue) {
+            if (isset($langvalue[$delta])) {
+              // copy field content from other language version first
+              $entity->{$field_name}[$langcode][$delta] = $langvalue[$delta];
+            }
+            break;
+          }
+        }
 
+        // assign value to current language
+        $entity->{$field_name}[$langcode][$delta]['fid'] = $file->fid;
         if(isset($file->alt)){
           $entity->{$field_name}[$langcode][$delta]['alt'] = $file->alt;
         }
