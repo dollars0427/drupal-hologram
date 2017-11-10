@@ -63,8 +63,10 @@ function hologram_field_widget_info(){
 * Implements hook_field_widget_form().
 *
 */
-function hologram_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+function hologram_field_widget_form($form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
   $upload_path = '/' . variable_get('file_public_path', conf_path() . '/files/');
+
+  $settings = array('Hologram' => array());
 
   $extensions = explode(' ', $instance['settings']['file_extensions']);
   $extensions_setting = array();
@@ -72,49 +74,52 @@ function hologram_field_widget_form(&$form, &$form_state, $field, $instance, $la
     $extension = 'image/' . $extension;
     array_push($extensions_setting, $extension);
   }
+
   $extensions_setting = implode(',', $extensions_setting);
+
+  $element['#attached']['js'][] = array(
+    'type' => 'setting',
+    'data' => array('Hologram' => array(
+      'file_extensions' => $extensions_setting,
+      'uploadUrl' => $upload_path,
+      'acceptType' => $extensions_setting,
+      'maxFiles' => (int)$field['cardinality'],
+      'enableAlt' => $instance['settings']['alt_field'],
+      'enableTitle' => $instance['settings']['title_field'],
+    )
+  ),
+);
 
   if($instance['settings']['max_filesize']){
     $max_filesize = (int)$instance['settings']['max_filesize'];
-    drupal_add_js(array('Hologram' => array('maxFileSize' => $max_filesize)), array('type' => 'setting'));
+    $settings['Hologram']['maxFileSize'] = $max_filesize;
   }
 
   if($instance['widget']['settings']['min_width']){
     $min_width = (int)$instance['widget']['settings']['min_width'];
-    drupal_add_js(array('Hologram' => array('minWidth' => $min_width)), array('type' => 'setting'));
+    $settings['Hologram']['minWidth'] = $min_width;
   }
 
   if($instance['widget']['settings']['max_width']){
     $max_width = (int)$instance['widget']['settings']['max_width'];
-    drupal_add_js(array('Hologram' => array('maxWidth' => $max_width)), array('type' => 'setting'));
+    $settings['Hologram']['maxWidth'] = $max_width;
   }
 
   if($instance['widget']['settings']['min_height']){
     $min_height = (int)$instance['widget']['settings']['min_height'];
-    drupal_add_js(array('Hologram' => array('minHeight' => $min_height)), array('type' => 'setting'));
+    $settings['Hologram']['minHeight'] = $min_height;
   }
 
   if($instance['widget']['settings']['max_height']){
     $max_height = (int)$instance['widget']['settings']['max_height'];
-    drupal_add_js(array('Hologram' => array('maxHeight' => $max_height)), array('type' => 'setting'));
-  }
-
-  if($instance['widget']['settings']['max_height']){
-    $max_height = (int)$instance['widget']['settings']['max_height'];
-    drupal_add_js(array('Hologram' => array('maxHeight' => $max_height)), array('type' => 'setting'));
+    $settings['Hologram']['maxHeight'] = $max_height;
   }
 
   if($instance['widget']['settings']['aspect']){
     $aspect = explode('/', $instance['widget']['settings']['aspect']);
     $aspect = (int)$aspect[0] / (int)$aspect[1];
-    drupal_add_js(array('Hologram' => array('aspect' => $aspect)), array('type' => 'setting'));
+    $settings['Hologram']['aspect'] = $aspect;
   }
-
-  drupal_add_js(array('Hologram' => array('uploadUrl' => $upload_path)), array('type' => 'setting'));
-  drupal_add_js(array('Hologram' => array('acceptType' => $extensions_setting)), array('type' => 'setting'));
-  drupal_add_js(array('Hologram' => array('maxFiles' => (int)$field['cardinality'])), array('type' => 'setting'));
-  drupal_add_js(array('Hologram' => array('enableAlt' => $instance['settings']['alt_field'])), array('type' => 'setting'));
-  drupal_add_js(array('Hologram' => array('enableTitle' => $instance['settings']['title_field'])), array('type' => 'setting'));
 
   if(!empty($items)){
     $images = array();
