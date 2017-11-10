@@ -16,8 +16,12 @@
             enableTitle: Drupal.settings.Hologram.enableTitle,
             enableAlt: Drupal.settings.Hologram.enableAlt,
             onComplete: function(result){
-               var json = JSON.stringify(result);
-               $(jsonField).val(json);
+              try{
+                var json = JSON.stringify(result);
+                $(jsonField).val(json);
+              }catch(ex){
+                console.log(ex);
+              }
             },
             config: {
                dropzoneConfig: {
