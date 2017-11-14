@@ -86,7 +86,7 @@ class PreviewCom extends React.Component {
 
       static propTypes = {
          files: PropTypes.array,
-         uploadUrl: PropTypes.string,
+         uploadPath: PropTypes.string,
          enableTitle: PropTypes.number,
          enableAlt: PropTypes.number,
          config: PropTypes.object,
@@ -97,7 +97,7 @@ class PreviewCom extends React.Component {
       static defaultProps = {
          enableTitle: 0,
          enableAlt: 0,
-         getPreviewUrl: (props, file) => props.uploadUrl + file['name'],
+         getPreviewUrl: (props, file) => props.uploadPath + file['name'],
          onComplete: () => {}
       };
    }

@@ -12,12 +12,12 @@
          }
 
          var settings =  {
-            uploadUrl: Drupal.settings.Hologram.uploadUrl,
+            uploadPath: Drupal.settings.Hologram.uploadPath,
             enableTitle: Drupal.settings.Hologram.enableTitle,
             enableAlt: Drupal.settings.Hologram.enableAlt,
             getPreviewUrl: function(props, file) {
                if (typeof file.preview_url != 'undefined') return file.preview_url;
-               return props.uploadUrl + file['name'];
+               return props.uploadPath + file['name'];
             },
             onComplete: function(result){
               try{
