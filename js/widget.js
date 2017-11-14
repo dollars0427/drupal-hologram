@@ -20,8 +20,12 @@
                return props.uploadUrl + file['name'];
             },
             onComplete: function(result){
-               var json = JSON.stringify(result);
-               $(jsonField).val(json);
+              try{
+                var json = JSON.stringify(result);
+                $(jsonField).val(json);
+              }catch(ex){
+                console.log(ex);
+              }
             },
             config: {
                dropzoneConfig: {
