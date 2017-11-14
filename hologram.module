@@ -65,7 +65,6 @@ function hologram_field_widget_info(){
 */
 function hologram_field_widget_form($form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
   $upload_path = '/' . variable_get('file_public_path', conf_path() . '/files/');
-
   $settings = array('Hologram' => array());
 
   $extensions = explode(' ', $instance['settings']['file_extensions']);
@@ -75,6 +74,9 @@ function hologram_field_widget_form($form, &$form_state, $field, $instance, $lan
     array_push($extensions_setting, $extension);
   }
 
+  //Pass entity type to form state
+  $form_state['storage']['entity_type'] = $instance['entity_type'];
+  $form_state['storage']['bundle'] = $instance['bundle'];
   $extensions_setting = implode(',', $extensions_setting);
 
   $element['#attached']['js'][] = array(
@@ -90,64 +92,65 @@ function hologram_field_widget_form($form, &$form_state, $field, $instance, $lan
   ),
 );
 
-  if($instance['settings']['max_filesize']){
-    $max_filesize = (int)$instance['settings']['max_filesize'];
-    $settings['Hologram']['maxFileSize'] = $max_filesize;
-  }
+if($instance['settings']['max_filesize']){
+  $max_filesize = (int)$instance['settings']['max_filesize'];
+  $settings['Hologram']['maxFileSize'] = $max_filesize;
+}
 
-  if($instance['widget']['settings']['min_width']){
-    $min_width = (int)$instance['widget']['settings']['min_width'];
-    $settings['Hologram']['minWidth'] = $min_width;
-  }
+if($instance['widget']['settings']['min_width']){
+  $min_width = (int)$instance['widget']['settings']['min_width'];
+  $settings['Hologram']['minWidth'] = $min_width;
+}
 
-  if($instance['widget']['settings']['max_width']){
-    $max_width = (int)$instance['widget']['settings']['max_width'];
-    $settings['Hologram']['maxWidth'] = $max_width;
-  }
+if($instance['widget']['settings']['max_width']){
+  $max_width = (int)$instance['widget']['settings']['max_width'];
+  $settings['Hologram']['maxWidth'] = $max_width;
+}
 
-  if($instance['widget']['settings']['min_height']){
-    $min_height = (int)$instance['widget']['settings']['min_height'];
-    $settings['Hologram']['minHeight'] = $min_height;
-  }
+if($instance['widget']['settings']['min_height']){
+  $min_height = (int)$instance['widget']['settings']['min_height'];
+  $settings['Hologram']['minHeight'] = $min_height;
+}
 
-  if($instance['widget']['settings']['max_height']){
-    $max_height = (int)$instance['widget']['settings']['max_height'];
-    $settings['Hologram']['maxHeight'] = $max_height;
-  }
+if($instance['widget']['settings']['max_height']){
+  $max_height = (int)$instance['widget']['settings']['max_height'];
+  $settings['Hologram']['maxHeight'] = $max_height;
+}
 
-  if($instance['widget']['settings']['aspect']){
-    $aspect = explode('/', $instance['widget']['settings']['aspect']);
-    $aspect = (int)$aspect[0] / (int)$aspect[1];
-    $settings['Hologram']['aspect'] = $aspect;
-  }
+if($instance['widget']['settings']['aspect']){
+  $aspect = explode('/', $instance['widget']['settings']['aspect']);
+  $aspect = (int)$aspect[0] / (int)$aspect[1];
+  $settings['Hologram']['aspect'] = $aspect;
+}
 
-  if(!empty($items)){
-    $images = array();
-    foreach($items as $item){
-      $image = array('key'=> uniqid(), 'fid' => $item['fid'], 'name' => $item['filename']);
-      if(isset($item['alt'])){
-        $image['alt'] = $item['alt'];
-        $image['title'] = $item['title'];
-      }
-      array_push($images, $image);
+if(!empty($items)){
+  $images = array();
+  foreach($items as $item){
+    $image = array('key'=> uniqid(), 'fid' => $item['fid'], 'name' => $item['filename']);
+    if(isset($item['alt'])){
+      $image['alt'] = $item['alt'];
+      $image['title'] = $item['title'];
     }
-    $item_json = json_encode($images);
+    array_push($images, $image);
   }
+  $item_json = json_encode($images);
+}
 
-  $element['value'] = array(
-    'image_data' => array(
-      '#type' => 'hidden',
-      '#default_value' => isset($item_json) ? $item_json : '',
-      '#attributes' => array('id  ' => 'hologram-image-data'),
-    ),
-    'hologram' => array(
-      '#title'=> $element['#title'],
-      '#type' => 'markup',
-      '#markup' => '<div class="hologram-wrapper"><label>' . $element['#title'] . '</label><div class="hologram-area"></div></div>',
-    ),
-  );
+$element['value'] = array(
+  'image_data' => array(
+    '#type' => 'hidden',
+    '#element_validate' => array('_hologram_field_vaildate'),
+    '#default_value' => isset($item_json) ? $item_json : '',
+    '#attributes' => array('id  ' => 'hologram-image-data'),
+  ),
+  'hologram' => array(
+    '#title'=> $element['#title'],
+    '#type' => 'markup',
+    '#markup' => '<div class="hologram-wrapper"><label>' . $element['#title'] . '</label><div class="hologram-area"></div></div>',
+  ),
+);
 
-  return $element;
+return $element;
 }
 
 function hologram_field_widget_settings_form($field, $instance){
@@ -204,6 +207,17 @@ function hologram_width_height_validate($element, &$form_state){
   }
 }
 
+function _hologram_check_aspect($form, &$form_state){
+  $aspect = $form_state['values']['instance']['widget']['settings']['aspect'];
+  if($aspect){
+    $aspect_value = explode('/', $form_state['values']['instance']['widget']['settings']['aspect']);
+
+    if(count($aspect_value) !== 2){
+      form_set_error('aspect', t('Aspect format should like: 16/9.'));
+    }
+  }
+}
+
 function hologram_field_attach_submit($entity_type, $entity, $form, &$form_state){
   $fields = field_info_instances($entity_type, isset($entity->type) ? $entity->type : NULL);
   if (isset($entity->type)) {
@@ -251,18 +265,26 @@ function _hologram_entity_presave($entity, $fields, $form_state) {
         }
       }
     }else{
-      unset($entity->{$field_name}[$langcode][0]['fid']);
+      if(!$field['required']){
+        unset($entity->{$field_name}[$langcode][0]['fid']);
+      }
     }
   }
 }
 
-function _hologram_check_aspect($form, &$form_state){
-  $aspect = $form_state['values']['instance']['widget']['settings']['aspect'];
-  if($aspect){
-    $aspect_value = explode('/', $form_state['values']['instance']['widget']['settings']['aspect']);
+function _hologram_field_vaildate($element, &$form_state){
+  global $language;
+  $langcode = $language->language;
+  $field_name = $element['#parents'][0];
+  $entity_type = $form_state['storage']['entity_type'];
+  $bundle = $form_state['storage']['bundle'];
 
-    if(count($aspect_value) !== 2){
-      form_set_error('aspect', t('Aspect format should like: 16/9.'));
+  $field = field_info_instance($entity_type, $field_name, $bundle);
+  $field_label = $field['label'];
+
+  if($field['required']){
+    if(empty($form_state['values']['field_featured_image'][$langcode]['image_data'])){
+      form_error($element, t('@field_name field is required.', array('@field_name' => $field_label)));
     }
   }
 }
