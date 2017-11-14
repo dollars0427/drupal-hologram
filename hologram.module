@@ -154,6 +154,7 @@ $element['value'] = array(
     '#element_validate' => array('_hologram_field_vaildate'),
     '#default_value' => isset($item_json) ? $item_json : '',
     '#attributes' => array('id  ' => 'hologram-image-data'),
+    '#maxlength' => 4096,
   ),
   'hologram' => array(
     '#title'=> $element['#title'],
@@ -293,9 +294,17 @@ function _hologram_field_vaildate($element, &$form_state){
   global $language;
   $langcode = $language->language;
   $instance = $form_state['storage']['instance'];
+  $field_name = $instance['field_name'];
 
   if($instance['required']){
-    if(empty($form_state['values']['field_featured_image'][$langcode]['value']['image_data'])){
+    $image_data = $form_state['values'][$instance['field_name']][$langcode]['value']['image_data'];
+
+    if(!empty($image_data)){
+      $image_data_content = json_decode($image_data);
+      if(empty($image_data_content)){
+        form_error($element, t('@field_label field is required.', array('@field_label' => $instance['label'])));
+      }
+    }else{
       form_error($element, t('@field_label field is required.', array('@field_label' => $instance['label'])));
     }
   }
