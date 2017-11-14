@@ -68,8 +68,7 @@ function hologram_field_widget_form($form, &$form_state, $field, $instance, $lan
   $settings = array('Hologram' => array());
 
   //Pass entity type to form state
-  $form_state['storage']['entity_type'] = $instance['entity_type'];
-  $form_state['storage']['bundle'] = $instance['bundle'];
+  $form_state['storage']['instance'] = $instance;
 
   $element['#attached']['js'] = array(
     drupal_get_path('module', 'hologram') . '/hologram/dist/bundle.js',
@@ -163,6 +162,10 @@ $element['value'] = array(
     </div>',
   ),
 );
+
+if($instance['required']){
+  $element['value']['image_data']['#required'] = 'TRUE';
+}
 
 return $element;
 }
@@ -289,16 +292,11 @@ function _hologram_entity_presave($entity, $fields, $form_state) {
 function _hologram_field_vaildate($element, &$form_state){
   global $language;
   $langcode = $language->language;
-  $field_name = $element['#parents'][0];
-  $entity_type = $form_state['storage']['entity_type'];
-  $bundle = $form_state['storage']['bundle'];
+  $instance = $form_state['storage']['instance'];
 
-  $field = field_info_instance($entity_type, $field_name, $bundle);
-  $field_label = $field['label'];
-
-  if($field['required']){
+  if($instance['required']){
     if(empty($form_state['values']['field_featured_image'][$langcode]['image_data'])){
-      form_error($element, t('@field_name field is required.', array('@field_name' => $field_label)));
+      form_error($element, t('@field_label field is required.', array('@field_label' => $instance['label'])));
     }
   }
 }
