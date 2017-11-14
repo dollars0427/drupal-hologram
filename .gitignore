@@ -1,2 +1,8 @@
-node_modules
-dist/
+# ignore nodejs
+/hologram/node_modules
+
+# ignore build artifact folder
+/hologram/dist
+
+# ignore MacOS temp folder
+.DS_Store

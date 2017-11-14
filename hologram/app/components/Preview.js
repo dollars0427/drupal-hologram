@@ -9,15 +9,24 @@ class PreviewCom extends React.Component {
    onUploaded(result){
       var files = [];
       result['response'].forEach(function(response){
-         var result = response['text'];
-         result = JSON.parse(result);
-         files.push(result);
+         const result = response['text'];
+         const parsedResult = JSON.parse(result);
+         if (parsedResult.status === 'success') {
+           files.push(parsedResult.data);
+         } else {
+           console.error(parsedResult);
+           // TODO: need better error messaging
+           alert(parsedResult.message);
+         }
       });
-      this.props.dispatch(addFiles(files));
-      this.props.onComplete(files);
+      if (files.length > 0) {
+        this.props.dispatch(addFiles(files));
+        this.props.onComplete(files);
+      }
    }
 
    render() {
+      const { getPreviewUrl } = this.props;
       return (
          <div>
             {this.props.files.length > 0 ? <div>
@@ -25,7 +34,7 @@ class PreviewCom extends React.Component {
                {this.props.files.map((file) =>
                   <div key={file.key} className="image-wrapper" >
                      <div className="image-info">
-                        <a className="image-name" href={this.props.uploadUrl + file['name']}>{file.name}</a>
+                        <a className="image-name" href={getPreviewUrl(this.props, file)}>{file.name}</a>
                         <form>
                            {this.props.enableAlt == '1' ?
                               <div className="image-form">
@@ -64,7 +73,7 @@ class PreviewCom extends React.Component {
                            <FaTimesCircle className="remove-icon" onClick={()=> {
                                  this.props.dispatch(removeFile(file.key))
                               }}/>
-                              <img src={this.props.uploadUrl + file['name']}/>
+                              <img src={getPreviewUrl(this.props, file)}/>
                            </div>
                         </div>
                      )}
@@ -81,12 +90,14 @@ class PreviewCom extends React.Component {
          enableTitle: PropTypes.number,
          enableAlt: PropTypes.number,
          config: PropTypes.object,
+         getPreviewUrl: PropTypes.func,
          onComplete: PropTypes.func
       };
 
       static defaultProps = {
          enableTitle: 0,
          enableAlt: 0,
+         getPreviewUrl: (props, file) => props.uploadUrl + file['name'],
          onComplete: () => {}
       };
    }
