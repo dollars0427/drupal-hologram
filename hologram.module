@@ -67,18 +67,30 @@ function hologram_field_widget_form($form, &$form_state, $field, $instance, $lan
   $upload_path = '/' . variable_get('file_public_path', conf_path() . '/files/');
   $settings = array('Hologram' => array());
 
+  //Pass entity type to form state
+  $form_state['storage']['entity_type'] = $instance['entity_type'];
+  $form_state['storage']['bundle'] = $instance['bundle'];
+
+  $element['#attached']['js'] = array(
+    drupal_get_path('module', 'hologram') . '/hologram/dist/bundle.js',
+    drupal_get_path('module', 'hologram') . '/js/widget.js',
+  );
+
+  $element['#attached']['css'] = array(
+    drupal_get_path('module', 'hologram') . '/css/hologram_widget.css',
+    drupal_get_path('module', 'hologram') . '/hologram/dist/css/hologram.css',
+  );
+
+  //Add file extension from setting
   $extensions = explode(' ', $instance['settings']['file_extensions']);
   $extensions_setting = array();
   foreach($extensions as $extension){
     $extension = 'image/' . $extension;
     array_push($extensions_setting, $extension);
   }
-
-  //Pass entity type to form state
-  $form_state['storage']['entity_type'] = $instance['entity_type'];
-  $form_state['storage']['bundle'] = $instance['bundle'];
   $extensions_setting = implode(',', $extensions_setting);
 
+  //Add hologram setting to widget
   $element['#attached']['js'][] = array(
     'type' => 'setting',
     'data' => array('Hologram' => array(
@@ -138,7 +150,8 @@ if(!empty($items)){
 
 $element['value'] = array(
   'image_data' => array(
-    '#type' => 'hidden',
+    '#title' => $element['#title'],
+    '#type' => 'textfield',
     '#element_validate' => array('_hologram_field_vaildate'),
     '#default_value' => isset($item_json) ? $item_json : '',
     '#attributes' => array('id  ' => 'hologram-image-data'),
@@ -146,7 +159,8 @@ $element['value'] = array(
   'hologram' => array(
     '#title'=> $element['#title'],
     '#type' => 'markup',
-    '#markup' => '<div class="hologram-wrapper"><label>' . $element['#title'] . '</label><div class="hologram-area"></div></div>',
+    '#markup' => '<div class="hologram-area">
+    </div>',
   ),
 );
 
