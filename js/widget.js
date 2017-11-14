@@ -36,7 +36,7 @@
                   },
                },
                maxFiles: Drupal.settings.Hologram.maxFiles,
-               uploader: '/hologram/upload'
+               uploader: Drupal.settings.Hologram.uploaderUrl,
             },
          }
 

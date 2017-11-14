@@ -94,7 +94,7 @@ function hologram_field_widget_form($form, &$form_state, $field, $instance, $lan
     'type' => 'setting',
     'data' => array('Hologram' => array(
       'file_extensions' => $extensions_setting,
-      'uploadUrl' => $upload_path,
+      'uploaderUrl' => $upload_path,
       'acceptType' => $extensions_setting,
       'maxFiles' => (int)$field['cardinality'],
       'enableAlt' => $instance['settings']['alt_field'],
@@ -159,8 +159,7 @@ $element['value'] = array(
   'hologram' => array(
     '#title'=> $element['#title'],
     '#type' => 'markup',
-    '#markup' => '<div class="hologram-area">
-    </div>',
+    '#markup' => '<div class="hologram-area"></div>',
   ),
 );
 
