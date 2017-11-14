@@ -295,7 +295,7 @@ function _hologram_field_vaildate($element, &$form_state){
   $instance = $form_state['storage']['instance'];
 
   if($instance['required']){
-    if(empty($form_state['values']['field_featured_image'][$langcode]['image_data'])){
+    if(empty($form_state['values']['field_featured_image'][$langcode]['value']['image_data'])){
       form_error($element, t('@field_label field is required.', array('@field_label' => $instance['label'])));
     }
   }
