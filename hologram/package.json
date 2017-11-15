@@ -19,7 +19,7 @@
     "webpack": "1.13.3"
   },
   "dependencies": {
-    "hologram-image-upload": "^2.4.1",
+    "hologram-image-upload": "^2.4.3",
     "immutability-helper": "2.1.2",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
