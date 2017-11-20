@@ -26,7 +26,7 @@ function hologram_upload(){
     $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $file->preview));
 
     try{
-      $file_data = file_save_data($data, 'public://' . $file->name, FILE_EXISTS_RENAME);
+      $file_data = file_save_data($data, 'public://' . $file->name, FILE_EXISTS_REPLACE);
       $uploaded_file = array(
         'key'=> $file->key,
         'fid'=> $file_data->fid,
@@ -82,6 +82,7 @@ function hologram_field_widget_form($form, &$form_state, $field, $instance, $lan
 
   //Pass entity type to form state
   $form_state['storage']['instance'] = $instance;
+  $form_state['storage']['langcode'] = $langcode;
 
   $element['#attached']['js'] = array(
     drupal_get_path('module', 'hologram') . '/hologram/dist/bundle.js',
@@ -320,8 +321,7 @@ function _hologram_entity_presave($entity_type, $entity, $fields, $form_state) {
 }
 
 function _hologram_field_vaildate($element, &$form_state){
-  global $language;
-  $langcode = $language->language;
+  $langcode = $form_state['storage']['langcode'];
   $instance = $form_state['storage']['instance'];
   $field_name = $instance['field_name'];
 
