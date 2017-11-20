@@ -7,13 +7,13 @@ module.exports = {
         "filename": "bundle.js"
     },
     "resolve": {
-        "extensions": ['', '.js', '.jsx']
+        "extensions": ['.js', '.jsx']
     },
     "module": {
         "loaders": [
             {
                 "test": /\.js$/,
-                "loader": "babel"
+                "loader": "babel-loader"
             },
         ]
     }

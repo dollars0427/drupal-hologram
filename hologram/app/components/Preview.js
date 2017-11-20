@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import FaTimesCircle from 'react-icons/lib/fa/times-circle';
 import {addFiles, updateAlt, updateTitle, removeFile} from '../actions';
 import DropzoneCom from './Dropzone';
 
@@ -70,9 +69,11 @@ class PreviewCom extends React.Component {
                         </form>
                      </div>
                         <div key={file.key} className="preview-image">
-                           <FaTimesCircle className="remove-icon" onClick={()=> {
+                           <div className="remove-icon" onClick={()=> {
                                  this.props.dispatch(removeFile(file.key))
-                              }}/>
+                              }}>
+                              <div className="remove-text">✖</div>
+                            </div>
                               <img src={getPreviewUrl(this.props, file)}/>
                            </div>
                         </div>

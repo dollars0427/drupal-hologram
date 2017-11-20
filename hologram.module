@@ -26,7 +26,7 @@ function hologram_upload(){
     $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $file->preview));
 
     try{
-      $file_data = file_save_data($data, 'public://' . $file->name, FILE_EXISTS_REPLACE);
+      $file_data = file_save_data($data, 'public://' . $file->name, FILE_EXISTS_RENAME);
       $uploaded_file = array(
         'key'=> $file->key,
         'fid'=> $file_data->fid,
