@@ -1,6 +1,10 @@
 .dropzone .dropzone-image .remove-icon{
   width: 20px !important;
   height: 20px !important;
+
+  &:hover{
+    cursor: pointer;
+  }
 }
 
 .image-wrapper{
@@ -35,6 +39,7 @@
       &:hover{
         color: black;
         background-color: white;
+        cursor: pointer;
       }
 
       .remove-text{

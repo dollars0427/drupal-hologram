@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
-    "hologram-image-upload": "^2.5.3",
+    "hologram-image-upload": "^2.5.4",
     "immutability-helper": "2.1.2",
     "prop-types": "^15.5.10",
     "react": "^16.1.1",

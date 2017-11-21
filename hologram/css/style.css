@@ -3,6 +3,10 @@
   height: 20px !important;
 }
 
+.dropzone .dropzone-image .remove-icon:hover {
+  cursor: pointer;
+}
+
 .image-wrapper {
   overflow: auto;
 }
@@ -37,6 +41,7 @@
 .preview-image .remove-icon:hover {
   color: black;
   background-color: white;
+  cursor: pointer;
 }
 
 .preview-image .remove-icon .remove-text {
