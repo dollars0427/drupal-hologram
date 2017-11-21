@@ -7,7 +7,7 @@
 function hologram_menu(){
   $items['hologram/upload'] = array(
     'page callback' => 'hologram_upload',
-    'access callback' = > 'user_is_logged_in',
+    'access callback' => 'user_is_logged_in',
   );
 
   return $items;
