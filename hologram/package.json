@@ -20,6 +20,7 @@
     "webpack": "^3.8.1"
   },
   "dependencies": {
+    "core-js": "^2.5.1",
     "hologram-image-upload": "^2.5.4",
     "immutability-helper": "2.1.2",
     "prop-types": "^15.5.10",
