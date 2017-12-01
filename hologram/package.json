@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "core-js": "^2.5.1",
-    "hologram-image-upload": "^2.5.5",
+    "hologram-image-upload": "^2.6.2",
     "immutability-helper": "2.1.2",
     "prop-types": "^15.5.10",
     "react": "^16.1.1",

@@ -76,6 +76,7 @@ class PreviewCom extends React.Component {
                             </div>
                               <img src={getPreviewUrl(this.props, file)}/>
                            </div>
+                           <div className="clearfix"/>
                         </div>
                      )}
                   </div> :  <DropzoneCom
