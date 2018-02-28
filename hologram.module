@@ -103,6 +103,47 @@ function hologram_field_widget_form($form, &$form_state, $field, $instance, $lan
   }
   $extensions_setting = implode(',', $extensions_setting);
 
+  $settings = array(
+    'file_extensions' => $extensions_setting,
+    'uploadPath' => $upload_path,
+    'uploaderUrl' => url('hologram/upload'),
+    'acceptType' => $extensions_setting,
+    'maxFiles' => (int)$field['cardinality'],
+    'enableAlt' => $instance['settings']['alt_field'],
+    'enableTitle' => $instance['settings']['title_field'],
+  );
+
+  if($instance['settings']['max_filesize']){
+    $max_filesize = (int)$instance['settings']['max_filesize'];
+    $settings['maxFileSize'] = $max_filesize;
+  }
+
+  if($instance['widget']['settings']['min_width']){
+    $min_width = (int)$instance['widget']['settings']['min_width'];
+    $settings['minWidth'] = $min_width;
+  }
+
+  if($instance['widget']['settings']['max_width']){
+    $max_width = (int)$instance['widget']['settings']['max_width'];
+    $settings['maxWidth'] = $max_width;
+  }
+
+  if($instance['widget']['settings']['min_height']){
+    $min_height = (int)$instance['widget']['settings']['min_height'];
+    $settings['minHeight'] = $min_height;
+  }
+
+  if($instance['widget']['settings']['max_height']){
+    $max_height = (int)$instance['widget']['settings']['max_height'];
+    $settings['maxHeight'] = $max_height;
+  }
+
+  if($instance['widget']['settings']['aspect']){
+    $aspect = explode('/', $instance['widget']['settings']['aspect']);
+    $aspect = (int)$aspect[0] / (int)$aspect[1];
+    $settings['aspect'] = $aspect;
+  }
+
   //Add hologram setting to widget
   $element['#attached']['js'][] = array(
     'type' => 'setting',
@@ -117,37 +158,6 @@ function hologram_field_widget_form($form, &$form_state, $field, $instance, $lan
     )
   ),
 );
-
-if($instance['settings']['max_filesize']){
-  $max_filesize = (int)$instance['settings']['max_filesize'];
-  $settings['Hologram']['maxFileSize'] = $max_filesize;
-}
-
-if($instance['widget']['settings']['min_width']){
-  $min_width = (int)$instance['widget']['settings']['min_width'];
-  $settings['Hologram']['minWidth'] = $min_width;
-}
-
-if($instance['widget']['settings']['max_width']){
-  $max_width = (int)$instance['widget']['settings']['max_width'];
-  $settings['Hologram']['maxWidth'] = $max_width;
-}
-
-if($instance['widget']['settings']['min_height']){
-  $min_height = (int)$instance['widget']['settings']['min_height'];
-  $settings['Hologram']['minHeight'] = $min_height;
-}
-
-if($instance['widget']['settings']['max_height']){
-  $max_height = (int)$instance['widget']['settings']['max_height'];
-  $settings['Hologram']['maxHeight'] = $max_height;
-}
-
-if($instance['widget']['settings']['aspect']){
-  $aspect = explode('/', $instance['widget']['settings']['aspect']);
-  $aspect = (int)$aspect[0] / (int)$aspect[1];
-  $settings['Hologram']['aspect'] = $aspect;
-}
 
 if(!empty($items)){
   $images = array();
