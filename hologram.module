@@ -147,15 +147,7 @@ function hologram_field_widget_form($form, &$form_state, $field, $instance, $lan
   //Add hologram setting to widget
   $element['#attached']['js'][] = array(
     'type' => 'setting',
-    'data' => array('Hologram' => array(
-      'file_extensions' => $extensions_setting,
-      'uploadPath' => $upload_path,
-      'uploaderUrl' => url('hologram/upload'),
-      'acceptType' => $extensions_setting,
-      'maxFiles' => (int)$field['cardinality'],
-      'enableAlt' => $instance['settings']['alt_field'],
-      'enableTitle' => $instance['settings']['title_field'],
-    )
+    'data' => array('Hologram' => $settings,
   ),
 );
 
