@@ -4,11 +4,22 @@
 
       Array.prototype.forEach.call(fields, function(field){
          var jsonField = $(field).find('input').get(0);
-         var area = $(field).find('.hologram-area').get(0);
-         //var form = $(field).closest('form');
+         var hologram = $(field).find('.hologram-area').get(0);
+         var form = $(field).closest('form');
 
-         //console.log(form);
-
+         //If user submit form before upload image
+         form.on('submit', function(e){
+           var filesInput = $(hologram).find('.hologram-dropzone').find('input').get(0);
+           if(filesInput.files.length !== 0 && $(jsonField).val().length === 0){
+             e.preventDefault();
+             var fieldName = $(field).find('label').get(0).textContent;
+             if($('.error').length !== 0){
+               $('.error').css('display', 'none');
+             }
+             form.append('<div class="messages error">' + 'Images of field ' + fieldName +
+             'had not been uploaded. Please press Upload button to upload your images.</div>')
+           }
+         });
          if(Drupal.settings.Hologram.maxFileSize){
             var maxFileSize = Drupal.settings.Hologram.maxFileSize;
          }else{
@@ -47,6 +58,7 @@
                dropzoneConfig: {
                   maxSize: maxFileSize,
                   accept: Drupal.settings.Hologram.acceptType,
+                  className: 'hologram-dropzone',
                   style: {
                      width: '100%',
                      padding: '2.5em 0',
@@ -87,7 +99,7 @@
            settings.config.cropperConfig = cropperConfig;
          }
 
-         var handle = window.hologram(area, settings);
+         var handle = window.hologram(hologram, settings);
          handle.store
          handle.addFiles
 

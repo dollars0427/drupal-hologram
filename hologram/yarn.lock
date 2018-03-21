@@ -2129,9 +2129,9 @@ hoist-non-react-statics@^2.2.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.3.1.tgz#343db84c6018c650778898240135a1420ee22ce0"
 
-hologram-image-upload@^2.7.1:
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/hologram-image-upload/-/hologram-image-upload-2.7.1.tgz#0132edebf60cecfbb21f9b7e08586f937ef3feb1"
+hologram-image-upload@^2.7.2:
+  version "2.7.2"
+  resolved "https://registry.yarnpkg.com/hologram-image-upload/-/hologram-image-upload-2.7.2.tgz#7a0f12b8a802c52275ca5cdd90225c2391463ac2"
   dependencies:
     blueimp-canvas-to-blob "^3.14.0"
     core-js "^2.5.1"
