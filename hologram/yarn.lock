@@ -2129,16 +2129,16 @@ hoist-non-react-statics@^2.2.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.3.1.tgz#343db84c6018c650778898240135a1420ee22ce0"
 
-hologram-image-upload@^2.6.2:
-  version "2.6.2"
-  resolved "https://registry.yarnpkg.com/hologram-image-upload/-/hologram-image-upload-2.6.2.tgz#2752255527f0516fd15672bde53e61e20ab71789"
+hologram-image-upload@^2.7.1:
+  version "2.7.1"
+  resolved "https://registry.yarnpkg.com/hologram-image-upload/-/hologram-image-upload-2.7.1.tgz#0132edebf60cecfbb21f9b7e08586f937ef3feb1"
   dependencies:
     blueimp-canvas-to-blob "^3.14.0"
     core-js "^2.5.1"
     prop-types "^15.6.0"
     react-bootstrap-modal "^4.0.0"
     react-dropzone "^4.2.2"
-    react-image-crop "^3.0.7"
+    react-image-crop "^3.0.8"
     superagent "3.4.1"
 
 home-or-tmp@^2.0.0:
@@ -3303,9 +3303,9 @@ react-dropzone@^4.2.2:
     attr-accept "^1.0.3"
     prop-types "^15.5.7"
 
-react-image-crop@^3.0.7:
-  version "3.0.7"
-  resolved "https://registry.yarnpkg.com/react-image-crop/-/react-image-crop-3.0.7.tgz#8f7f1f03031c76c8b6306d11f7d1b8bf3007ab8c"
+react-image-crop@^3.0.8:
+  version "3.0.10"
+  resolved "https://registry.yarnpkg.com/react-image-crop/-/react-image-crop-3.0.10.tgz#a1bced7ca608b17632da124cab63f5bad1877de0"
 
 react-overlays@^0.7.3:
   version "0.7.4"

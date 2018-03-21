@@ -113,32 +113,32 @@ function hologram_field_widget_form($form, &$form_state, $field, $instance, $lan
     'enableTitle' => $instance['settings']['title_field'],
   );
 
-  if($instance['settings']['max_filesize']){
+  if(isset($instance['settings']['max_filesize'])){
     $max_filesize = (int)$instance['settings']['max_filesize'];
     $settings['maxFileSize'] = $max_filesize;
   }
 
-  if($instance['widget']['settings']['min_width']){
+  if(isset($instance['widget']['settings']['min_width'])){
     $min_width = (int)$instance['widget']['settings']['min_width'];
     $settings['minWidth'] = $min_width;
   }
 
-  if($instance['widget']['settings']['max_width']){
+  if(isset($instance['widget']['settings']['max_width'])){
     $max_width = (int)$instance['widget']['settings']['max_width'];
     $settings['maxWidth'] = $max_width;
   }
 
-  if($instance['widget']['settings']['min_height']){
+  if(isset($instance['widget']['settings']['min_height'])){
     $min_height = (int)$instance['widget']['settings']['min_height'];
     $settings['minHeight'] = $min_height;
   }
 
-  if($instance['widget']['settings']['max_height']){
+  if(isset($instance['widget']['settings']['max_height'])){
     $max_height = (int)$instance['widget']['settings']['max_height'];
     $settings['maxHeight'] = $max_height;
   }
 
-  if($instance['widget']['settings']['aspect']){
+  if(isset($instance['widget']['settings']['aspect'])){
     $aspect = explode('/', $instance['widget']['settings']['aspect']);
     $aspect = (int)$aspect[0] / (int)$aspect[1];
     $settings['aspect'] = $aspect;
