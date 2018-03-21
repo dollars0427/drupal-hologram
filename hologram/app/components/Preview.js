@@ -89,8 +89,8 @@ class PreviewCom extends React.Component {
       static propTypes = {
          files: PropTypes.array,
          uploadPath: PropTypes.string,
-         enableTitle: PropTypes.number,
-         enableAlt: PropTypes.number,
+         enableTitle: PropTypes.bool,
+         enableAlt: PropTypes.bool,
          config: PropTypes.object,
          getPreviewUrl: PropTypes.func,
          onComplete: PropTypes.func

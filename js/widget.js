@@ -1,14 +1,30 @@
 (function ($) {
    $(window).load(function(){
       var fields = document.getElementsByClassName('field-widget-hologram-image');
+
       Array.prototype.forEach.call(fields, function(field){
          var jsonField = $(field).find('input').get(0);
          var area = $(field).find('.hologram-area').get(0);
+         //var form = $(field).closest('form');
+
+         //console.log(form);
 
          if(Drupal.settings.Hologram.maxFileSize){
             var maxFileSize = Drupal.settings.Hologram.maxFileSize;
          }else{
             var maxFileSize = Infinity;
+         }
+
+         if(!Drupal.settings.Hologram.enableTitle){
+           Drupal.settings.Hologram.enableTitle = false;
+         }else{
+           Drupal.settings.Hologram.enableTitle = true;
+         }
+
+         if(!Drupal.settings.Hologram.enableAlt){
+           Drupal.settings.Hologram.enableAlt = false;
+         }else{
+           Drupal.settings.Hologram.enableAlt = true;
          }
 
          var settings =  {
