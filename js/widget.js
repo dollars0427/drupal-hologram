@@ -10,7 +10,7 @@
          //If user submit form before upload image
          form.on('submit', function(e){
            var filesInput = $(hologram).find('.hologram-dropzone').find('input').get(0);
-           if(filesInput.files.length !== 0 && $(jsonField).val().length === 0){
+           if(filesInput && filesInput.files.length !== 0 && $(jsonField).val().length === 0){
              e.preventDefault();
              var fieldName = $(field).find('label').get(0).textContent;
              if($('.error').length !== 0){
@@ -117,10 +117,12 @@
 
          handle.store.subscribe(function(){
             var files = handle.store.getState().files;
-            var json = JSON.stringify(files);
-            $(jsonField).val(json);
+            if(files.length !== 0){
+              var json = JSON.stringify(files);
+              $(jsonField).val(json);
+            }
+            $(jsonField).val('');
          });
-
       });
    });
 })(jQuery);
