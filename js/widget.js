@@ -13,10 +13,11 @@
            if(filesInput && filesInput.files.length !== 0 && $(jsonField).val().length === 0){
              e.preventDefault();
              var fieldName = $(field).find('label').get(0).textContent;
-             if($('.error').length !== 0){
-               $('.error').css('display', 'none');
+             if($('.hologram-error').length !== 0){
+               $('.hologram-error').css('display', 'none');
              }
-             form.append('<div class="messages error">' + 'Images of field ' + fieldName +
+             $('html,body').scrollTop(0);
+             form.prepend('<div class="messages error hologram-error">' + 'Images of field ' + fieldName +
              'had not been uploaded. Please press Upload button to upload your images.</div>')
            }
          });
