@@ -1,6 +1,7 @@
 (function ($) {
    $(window).load(function(){
       var fields = document.getElementsByClassName('field-widget-hologram-image');
+      console.log(fields);
 
       Array.prototype.forEach.call(fields, function(field){
          var jsonField = $(field).find('input').get(0);
@@ -8,7 +9,7 @@
          var form = $(field).closest('form');
 
          //If user submit form before upload image
-         form.on('submit', function(e){
+         form.submit(function(e){
            var filesInput = $(hologram).find('.hologram-dropzone').find('input').get(0);
            if(filesInput && filesInput.files.length !== 0 && $(jsonField).val().length === 0){
              e.preventDefault();
