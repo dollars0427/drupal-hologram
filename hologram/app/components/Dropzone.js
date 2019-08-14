@@ -15,7 +15,7 @@ class DropzoneCom extends React.Component {
     render() {
         return (
             <div>
-                <Hologram onComplete={this.onComplete} {... this.props.config} />
+                <Hologram onComplete={this.onComplete} defaultFiles={[]} {... this.props.config} />
                 </div>
     );}
 
